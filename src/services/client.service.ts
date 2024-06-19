@@ -1,12 +1,12 @@
-import { TypeUserProfile } from '@/types/user.types'
+import { TypeClientProfile } from '@/types/client.types'
 
 import { axiosWithAuth } from '@/api/instance'
 
-class UserService {
+class ClientService {
 	private BASE_URL = '/profile'
 
 	async getProfile() {
-		const response = await axiosWithAuth.get<TypeUserProfile>(this.BASE_URL)
+		const response = await axiosWithAuth.get<TypeClientProfile>(this.BASE_URL)
 		return response.data
 	}
 
@@ -16,4 +16,4 @@ class UserService {
 	// }
 }
 
-export const userService = new UserService()
+export const clientService = new ClientService()

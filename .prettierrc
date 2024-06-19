@@ -10,7 +10,9 @@
 	"importOrder": [
 		"<THIRD_PARTY_MODULES>",
 		"^@/components/(.*)$",
+		"^@/ui/(.*)$",
 		"^@/types/(.*)$",
+		"^@/services/(.*)$",
 		"^@/store/(.*)$",
 		"^@/hooks/(.*)$",
 		"^@/utils/(.*)$",
