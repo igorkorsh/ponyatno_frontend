@@ -1,5 +1,6 @@
 'use client'
 
+import { Form } from 'react-bootstrap'
 import { Control, Controller } from 'react-hook-form'
 
 interface IRadioOptionProps {
@@ -22,30 +23,38 @@ function RadioOption({ id, name, control, label, value }: IRadioOptionProps) {
 			name={name}
 			control={control}
 			render={({ field }) => (
-				<div>
-					<input
+				<Form.Group className='d-flex flex-row'>
+					<Form.Check
+						className='pe-2'
 						id={id}
 						type='radio'
 						{...field}
 						value={value}
 						checked={field.value === value}
 					/>
-					<label htmlFor={id}>{label}</label>
-				</div>
+					<Form.Label htmlFor={id}>{label}</Form.Label>
+				</Form.Group>
 			)}
 		/>
 	)
 }
 
 export function RadioButton({ id, control, options }: IRadioButtonProps) {
-	return options.map((key) => (
-		<RadioOption
-			key={key.label}
-			id={key.label}
-			name={id}
-			control={control}
-			label={key.label}
-			value={key.value}
-		/>
-	))
+	return (
+		<div
+			className='d-flex flex-row'
+			style={{ columnGap: 16 }}
+		>
+			{options.map((key) => (
+				<RadioOption
+					key={key.label}
+					id={key.label}
+					name={id}
+					control={control}
+					label={key.label}
+					value={key.value}
+				/>
+			))}
+		</div>
+	)
 }

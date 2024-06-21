@@ -1,5 +1,6 @@
 'use client'
 
+import { Form } from 'react-bootstrap'
 import { Control, Controller } from 'react-hook-form'
 
 interface IFormFieldProps {
@@ -22,15 +23,20 @@ export function FormField({
 			name={id}
 			control={control}
 			render={({ field }) => (
-				<div>
-					<label htmlFor={id}>{label}</label>
-					<input
+				<Form.Group className='mb-2'>
+					<Form.Label
+						htmlFor={id}
+						className='mb-0'
+					>
+						{label}
+					</Form.Label>
+					<Form.Control
 						id={id}
 						type={type}
 						placeholder={placeholder}
 						{...field}
 					/>
-				</div>
+				</Form.Group>
 			)}
 		/>
 	)

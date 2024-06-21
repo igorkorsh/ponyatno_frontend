@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import { Button, Card, Form } from 'react-bootstrap'
 import { SubmitHandler, useForm } from 'react-hook-form'
 
 import { FormField } from '@/components/ui/form-field/FormField'
@@ -68,13 +69,12 @@ export function PriceDetails({ details }: { details: TypeClientProfile }) {
 	const renderText = () => {
 		switch (formData.price_if_range) {
 			case EnumClientPriceIfRange.DIGIT:
-				return <p>Стоимость (digit): {formData.price_digit}</p>
+				return <p>Стоимость (digit): {formData.price_digit} рублей</p>
 			case EnumClientPriceIfRange.RANGE:
 				return (
-					<>
-						<p>Диапазон (price_from): {formData.price_from}</p>
-						<p>Диапазон (price_to): {formData.price_to}</p>
-					</>
+					<p>
+						Диапазон: {formData.price_from} – {formData.price_to} рублей
+					</p>
 				)
 		}
 	}
@@ -84,43 +84,54 @@ export function PriceDetails({ details }: { details: TypeClientProfile }) {
 	}, [details])
 
 	return (
-		<div>
-			<h2>Стоимость</h2>
-			{!isEditing && (
-				<button
-					type='button'
-					onClick={() => setIsEditing(true)}
+		<Card>
+			<Card.Body>
+				<div
+					className='d-flex flex-row align-items-center justify-content-between
+				mb-3'
 				>
-					Редактировать
-				</button>
-			)}
-			{isEditing ? (
-				<form onSubmit={handleSubmit(onSubmit)}>
-					<RadioButton
-						id='price_if_range'
-						control={control}
-						options={[
-							{ label: 'digit', value: 'digit' },
-							{ label: 'range', value: 'range' }
-						]}
-					/>
-					{renderComponent()}
-					<div>
-						<button type='submit'>Сохранить изменения</button>
-						<button
+					<Card.Title>Стоимость</Card.Title>
+					{!isEditing && (
+						<Button
 							type='button'
-							onClick={() => setIsEditing(false)}
+							onClick={() => setIsEditing(true)}
 						>
-							Отмена
-						</button>
-					</div>
-				</form>
-			) : (
-				<>
-					<p>Тип: {formData.price_if_range}</p>
-					{renderText()}
-				</>
-			)}
-		</div>
+							Редактировать
+						</Button>
+					)}
+				</div>
+				{isEditing ? (
+					<Form onSubmit={handleSubmit(onSubmit)}>
+						<RadioButton
+							id='price_if_range'
+							control={control}
+							options={[
+								{ label: 'digit', value: 'digit' },
+								{ label: 'range', value: 'range' }
+							]}
+						/>
+						{renderComponent()}
+						<div
+							className='d-flex flex-row'
+							style={{ columnGap: 8 }}
+						>
+							<Button type='submit'>Сохранить изменения</Button>
+							<Button
+								variant='secondary'
+								type='button'
+								onClick={() => setIsEditing(false)}
+							>
+								Отмена
+							</Button>
+						</div>
+					</Form>
+				) : (
+					<>
+						<p>Тип: {formData.price_if_range}</p>
+						{renderText()}
+					</>
+				)}
+			</Card.Body>
+		</Card>
 	)
 }

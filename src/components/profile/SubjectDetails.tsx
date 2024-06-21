@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import { Button, Card, Form } from 'react-bootstrap'
 import { SubmitHandler, useForm } from 'react-hook-form'
 
 import { FormField } from '@/components/ui/form-field/FormField'
@@ -31,51 +32,62 @@ export function SubjectDetails({ details }: { details: TypeClientProfile }) {
 	}, [details])
 
 	return (
-		<div>
-			<h2>Предметы</h2>
-			{!isEditing && (
-				<button
-					type='button'
-					onClick={() => setIsEditing(true)}
+		<Card>
+			<Card.Body>
+				<div
+					className='d-flex flex-row align-items-center justify-content-between
+				mb-3'
 				>
-					Редактировать
-				</button>
-			)}
-			{isEditing ? (
-				<form onSubmit={handleSubmit(onSubmit)}>
-					<FormField
-						id='subject'
-						control={control}
-						label='Предметы:'
-						placeholder='Предметы'
-					/>
-					<FormField
-						id='grade'
-						control={control}
-						label='grade:'
-						placeholder='grade'
-					/>
-					<div>
-						<button type='submit'>Сохранить изменения</button>
-						<button
+					<Card.Title>Предметы</Card.Title>
+					{!isEditing && (
+						<Button
 							type='button'
-							onClick={() => setIsEditing(false)}
+							onClick={() => setIsEditing(true)}
 						>
-							Отмена
-						</button>
-					</div>
-				</form>
-			) : (
-				<>
-					<p>
-						Предметы:
-						{formData.subject.map((subject) => (
-							<div key={subject.id}>{subject.name}</div>
-						))}
-					</p>
-					<p>Образование: {formData.grade}</p>
-				</>
-			)}
-		</div>
+							Редактировать
+						</Button>
+					)}
+				</div>
+				{isEditing ? (
+					<Form onSubmit={handleSubmit(onSubmit)}>
+						<FormField
+							id='subject'
+							control={control}
+							label='Предметы:'
+							placeholder='Предметы'
+						/>
+						<FormField
+							id='grade'
+							control={control}
+							label='grade:'
+							placeholder='grade'
+						/>
+						<div
+							className='d-flex flex-row'
+							style={{ columnGap: 8 }}
+						>
+							<Button type='submit'>Сохранить изменения</Button>
+							<Button
+								variant='secondary'
+								type='button'
+								onClick={() => setIsEditing(false)}
+							>
+								Отмена
+							</Button>
+						</div>
+					</Form>
+				) : (
+					<>
+						<p>
+							Предметы:
+							{formData.subject.map((subject) => (
+								<div key={subject.id}>{subject.name}</div>
+							))}
+						</p>
+						<p>Образование: {formData.grade}</p>
+					</>
+				)}
+			</Card.Body>
+		</Card>
 	)
 }

@@ -1,5 +1,6 @@
 'use client'
 
+import { Form } from 'react-bootstrap'
 import { Control, Controller } from 'react-hook-form'
 
 interface IFormTextProps {
@@ -13,12 +14,13 @@ export function FormText({ id, control }: IFormTextProps) {
 			name={id}
 			control={control}
 			render={({ field }) => (
-				<div>
-					<textarea
+				<Form.Group>
+					<Form.Control
 						id={id}
+						as='textarea'
 						{...field}
-					></textarea>
-				</div>
+					></Form.Control>
+				</Form.Group>
 			)}
 		/>
 	)

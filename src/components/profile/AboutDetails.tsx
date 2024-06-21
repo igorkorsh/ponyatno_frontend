@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import { Button, Card, CardBody, Form } from 'react-bootstrap'
 import { SubmitHandler, useForm } from 'react-hook-form'
 
 import { EnumClientType, TypeClientProfile } from '@/types/client.types'
@@ -50,9 +51,9 @@ export function AboutDetails({ details }: { details: TypeClientProfile }) {
 	const renderTitle = () => {
 		switch (details.user_type) {
 			case EnumClientType.STUDENT:
-				return <h2>Пожелания ученика</h2>
+				return <Card.Title>Пожелания ученика</Card.Title>
 			case EnumClientType.TEACHER:
-				return <h2>Обо мне</h2>
+				return <Card.Title>Обо мне</Card.Title>
 		}
 	}
 
@@ -61,35 +62,47 @@ export function AboutDetails({ details }: { details: TypeClientProfile }) {
 	}, [details])
 
 	return (
-		<div>
-			{renderTitle()}
-			{!isEditing && (
-				<button
-					type='button'
-					onClick={() => setIsEditing(true)}
-				>
-					Редактировать
-				</button>
-			)}
-			{isEditing ? (
-				<form onSubmit={handleSubmit(onSubmit)}>
-					<FormText
-						id={getId()}
-						control={control}
-					/>
-					<div>
-						<button type='submit'>Сохранить изменения</button>
-						<button
+		<Card>
+			<Card.Body>
+				<div className='d-flex flex-row align-items-center justify-content-between mb-3'>
+					{renderTitle()}
+					{!isEditing && (
+						<Button
 							type='button'
-							onClick={() => setIsEditing(false)}
+							onClick={() => setIsEditing(true)}
 						>
-							Отмена
-						</button>
-					</div>
-				</form>
-			) : (
-				renderText()
-			)}
-		</div>
+							Редактировать
+						</Button>
+					)}
+				</div>
+				{isEditing ? (
+					<Form
+						onSubmit={handleSubmit(onSubmit)}
+						className='d-flex flex-column'
+						style={{ rowGap: 8 }}
+					>
+						<FormText
+							id={getId()}
+							control={control}
+						/>
+						<div
+							className='d-flex flex-row'
+							style={{ columnGap: 8 }}
+						>
+							<Button type='submit'>Сохранить изменения</Button>
+							<Button
+								type='button'
+								variant='secondary'
+								onClick={() => setIsEditing(false)}
+							>
+								Отмена
+							</Button>
+						</div>
+					</Form>
+				) : (
+					renderText()
+				)}
+			</Card.Body>
+		</Card>
 	)
 }
