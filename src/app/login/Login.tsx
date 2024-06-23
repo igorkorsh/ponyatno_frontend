@@ -1,18 +1,33 @@
 'use client'
 
 import { useMutation } from '@tanstack/react-query'
+import { Eye, EyeOff } from 'lucide-react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import { useForm } from 'react-hook-form'
+import { useState } from 'react'
+import { SubmitHandler, useForm } from 'react-hook-form'
 
 import { ILoginForm } from '@/types/login.types'
 
 export function Login() {
-	const { register, handleSubmit, reset } = useForm<ILoginForm>({
+	const {
+		register,
+		handleSubmit,
+		formState: { isValid },
+		watch,
+		reset
+	} = useForm<ILoginForm>({
 		mode: 'onChange'
 	})
 
 	const { push } = useRouter()
+
+	const password = watch('password')
+	const [showPassword, setShowPassword] = useState(false)
+
+	const onSubmit: SubmitHandler<ILoginForm> = (data) => {
+		console.log(data)
+	}
 
 	return (
 		<div className='min-h-screen flex items-center justify-center w-full bg-gray-100'>
@@ -28,7 +43,10 @@ export function Login() {
 				<h1 className='text-2xl font-bold text-center mb-4'>
 					Войдите в свой аккаунт
 				</h1>
-				<form className='mb-5'>
+				<form
+					onSubmit={handleSubmit(onSubmit)}
+					className='mb-5'
+				>
 					<div className='mb-4'>
 						<label
 							htmlFor='email'
@@ -38,10 +56,10 @@ export function Login() {
 						</label>
 						<input
 							type='email'
+							{...register('email', { required: true })}
 							id='email'
 							className='shadow-sm rounded-md w-full px-3 py-2 border border-gray-300 focus:outline-none'
 							placeholder='name@domain.com'
-							required
 						/>
 					</div>
 					<div className='mb-4'>
@@ -59,17 +77,30 @@ export function Login() {
 								Забыли пароль?
 							</Link>
 						</div>
-						<input
-							type='password'
-							id='password'
-							className='shadow-sm rounded-md w-full px-3 py-2 border border-gray-300 focus:outline-none mb-1'
-							placeholder='Введите пароль'
-							required
-						/>
+						<div className='relative'>
+							<input
+								type={showPassword ? 'text' : 'password'}
+								{...register('password', { required: true })}
+								id='password'
+								className='shadow-sm rounded-md w-full px-3 py-2 border border-gray-300 focus:outline-none mb-1'
+								placeholder='Введите пароль'
+								required
+							/>
+							{password && password.length > 0 && (
+								<button
+									type='button'
+									onClick={() => setShowPassword(!showPassword)}
+									className='absolute right-2 top-2 text-indigo-300'
+								>
+									{showPassword ? <Eye /> : <EyeOff />}
+								</button>
+							)}
+						</div>
 					</div>
 					<button
 						type='submit'
-						className='w-full flex justify-center px-4 py-2 border border-transparent rounded-md shadow-md text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none'
+						disabled={!isValid}
+						className='w-full flex justify-center px-4 py-2 border border-transparent rounded-md shadow-md text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 disabled:shadow-none disabled:bg-gray-300 focus:outline-none'
 					>
 						Войти
 					</button>
