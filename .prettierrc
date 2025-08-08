@@ -1,0 +1,20 @@
+{
+	"useTabs": true,
+	"semi": false,
+	"jsxSingleQuote": true,
+	"singleAttributePerLine": true,
+	"importOrder": [
+		"<THIRD_PARTY_MODULES>",
+		"^@/types/(.*)$",
+		"^@/api/(.*)$",
+		"^@/services/(.*)$",
+		"^@/hooks/(.*)$",
+		"^@/components/(.*)$",
+		"^@/utils/(.*)$",
+		"^../(.*)",
+		"^./(.*)"
+	],
+	"importOrderSeparation": false,
+	"importOrderSortSpecifiers": true,
+	"plugins": ["@trivago/prettier-plugin-sort-imports"]
+}
