@@ -1,11 +1,11 @@
 export interface IProfile {
-	id: string
-	role: "student" | "teacher"
 	name: string
 	firstName: string
-	lastName: string
-	birthDate: string | null
-	gender: string | null
+	lastName?: string
+	birthDate: Date | undefined
+	gender?: Gender
 	about: string
 	isVerified: boolean
 }
+
+export type Gender = "MALE" | "FEMALE"

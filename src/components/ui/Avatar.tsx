@@ -1,20 +1,49 @@
 "use client"
 
 import * as AvatarPrimitive from "@radix-ui/react-avatar"
-import * as React from "react"
+import { VariantProps, cva } from "class-variance-authority"
+import type { ComponentProps } from "react"
 import { cn } from "@/utils/cn"
+
+const avatarVariants = cva("relative flex shrink-0 rounded-full", {
+	variants: {
+		size: {
+			sm: "size-10",
+			md: "size-[61px]",
+			lg: "size-[122px]",
+		},
+	},
+	defaultVariants: {
+		size: "md",
+	},
+})
+
+const avatarFallbackVariants = cva(
+	"flex size-full items-center justify-center rounded-full bg-neutral-200 text-brand-600 font-semibold select-none",
+	{
+		variants: {
+			size: {
+				sm: "text-[22px]",
+				md: "text-2xl",
+				lg: "text-[80px] leading-[120px]",
+			},
+		},
+		defaultVariants: {
+			size: "md",
+		},
+	},
+)
 
 function Avatar({
 	className,
+	size,
 	...props
-}: React.ComponentProps<typeof AvatarPrimitive.Root>) {
+}: ComponentProps<typeof AvatarPrimitive.Root> &
+	VariantProps<typeof avatarVariants>) {
 	return (
 		<AvatarPrimitive.Root
 			data-slot='avatar'
-			className={cn(
-				"relative flex size-8 shrink-0 overflow-hidden rounded-full",
-				className,
-			)}
+			className={cn(avatarVariants({ size, className }))}
 			{...props}
 		/>
 	)
@@ -23,7 +52,7 @@ function Avatar({
 function AvatarImage({
 	className,
 	...props
-}: React.ComponentProps<typeof AvatarPrimitive.Image>) {
+}: ComponentProps<typeof AvatarPrimitive.Image>) {
 	return (
 		<AvatarPrimitive.Image
 			data-slot='avatar-image'
@@ -35,15 +64,14 @@ function AvatarImage({
 
 function AvatarFallback({
 	className,
+	size,
 	...props
-}: React.ComponentProps<typeof AvatarPrimitive.Fallback>) {
+}: ComponentProps<typeof AvatarPrimitive.Fallback> &
+	VariantProps<typeof avatarFallbackVariants>) {
 	return (
 		<AvatarPrimitive.Fallback
 			data-slot='avatar-fallback'
-			className={cn(
-				"bg-muted flex size-full items-center justify-center rounded-full",
-				className,
-			)}
+			className={cn(avatarFallbackVariants({ size, className }))}
 			{...props}
 		/>
 	)
