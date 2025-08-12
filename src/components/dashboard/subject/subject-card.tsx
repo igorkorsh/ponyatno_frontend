@@ -2,35 +2,35 @@
 
 import { Pencil, Plus, Trash2 } from "lucide-react"
 import { useState } from "react"
-import { IEducation, IItemProps } from "@/types/dashboard.types"
-import { educationService } from "@/services/education.service"
-import { useEducation } from "@/hooks/useEducation"
+import { IItemProps, ISubject } from "@/types/dashboard.types"
+import { subjectService } from "@/services/subject.service"
+import { useSubject } from "@/hooks/useSubject"
 import { Button } from "@/components/ui/Button"
 import { Dialog, DialogTrigger } from "@/components/ui/Dialog"
-import { DEGREES } from "@/constants/education.constants"
-import EducationForm from "./education-form"
+import { GOALS, SUBJECTS } from "@/constants/subject.constants"
+import SubjectForm from "./subject-form"
 
-export default function EducationCard() {
+export default function SubjectCard() {
 	const [isOpen, setIsOpen] = useState(false)
-	const [education, setEducation] = useState<IEducation | null>(null)
+	const [subject, setSubject] = useState<ISubject | null>(null)
 
-	const { data, isLoading, deleteItem } = useEducation()
+	const { data, isLoading, deleteItem } = useSubject()
 
 	const handleOpenChange = (open: boolean) => {
 		setIsOpen(open)
 		if (!open) {
-			setEducation(null)
+			setSubject(null)
 		}
 	}
 
 	const handleClose = () => {
 		setIsOpen(false)
-		setEducation(null)
+		setSubject(null)
 	}
 
 	const handleUpdate = async (id: string) => {
-		const education = await educationService.getById(id)
-		setEducation(education)
+		const subject = await subjectService.getById(id)
+		setSubject(subject)
 		setIsOpen(true)
 	}
 
@@ -39,7 +39,7 @@ export default function EducationCard() {
 	) : (
 		<div className='flex flex-col gap-3'>
 			<h2 className='text-lg font-semibold text-neutral-900 md:text-xl'>
-				Образование
+				Предметы
 			</h2>
 			<div className='relative ms-2 flex flex-col gap-3 rounded-lg bg-neutral-100 p-4 transition-all lg:p-6'>
 				<Dialog
@@ -55,18 +55,18 @@ export default function EducationCard() {
 							<Plus />
 						</Button>
 					</DialogTrigger>
-					<EducationForm
-						education={education}
+					<SubjectForm
+						subject={subject}
 						onClose={handleClose}
 					/>
 				</Dialog>
 				<p className='pe-10 text-lg font-semibold text-neutral-900 lg:ps-2'>
-					Образование
+					Предметы
 				</p>
 				{data && data.length > 0 && (
 					<div className='flex flex-col gap-2'>
 						{data?.map((item, idx) => (
-							<EducationItem
+							<SubjectItem
 								key={idx}
 								{...item}
 								onUpdate={handleUpdate}
@@ -79,16 +79,15 @@ export default function EducationCard() {
 		</div>
 	)
 }
-export function EducationItem({
+
+export function SubjectItem({
 	id,
-	degree,
-	institution,
-	speciality,
-	startDate,
-	endDate,
+	name,
+	goals,
+	disabilities,
 	onUpdate,
 	onDelete,
-}: IEducation & IItemProps) {
+}: ISubject & IItemProps) {
 	return (
 		<div
 			className='group relative flex flex-col justify-between overflow-hidden rounded-xs bg-neutral-100 p-2 transition-colors outline-none focus-within:bg-neutral-200 hover:bg-neutral-200'
@@ -96,10 +95,10 @@ export function EducationItem({
 		>
 			<div className='flex max-w-[calc(100%-96px)] -translate-x-2 flex-col gap-1 transition-transform group-focus-within:translate-x-0 group-hover:translate-x-0'>
 				<p className='text-base font-semibold text-neutral-900'>
-					{DEGREES[degree]} {startDate && `(${endDate ?? `${startDate}–н.в`})`}
+					{SUBJECTS[name]}
 				</p>
 				<p className='text-sm text-neutral-600'>
-					{institution}, {speciality}
+					{goals.map((goal) => GOALS[goal]).join(", ")}
 				</p>
 			</div>
 			<div>

@@ -14,10 +14,10 @@ const buttonVariants = cva(
 					"bg-neutral-200 text-neutral-900 hover:bg-neutral-300 focus:bg-neutral-300 h-11 px-8 py-3",
 				tertiary:
 					"bg-transparent text-neutral-900 hover:bg-neutral-300 focus:bg-neutral-300",
+				outline:
+					"border-[1.5px] bg-transparent border-neutral-300 text-neutral-900 h-11 px-8 py-3",
 				// destructive:
 				// 	"bg-destructive text-white shadow-xs hover:bg-destructive/90 focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40 dark:bg-destructive/60",
-				// outline:
-				// 	"border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50",
 				link: "text-primary underline-offset-4 hover:underline",
 				icon: "rounded-full focus-visible:bg-brand-100 text-brand-600 hover:text-brand-700",
 			},

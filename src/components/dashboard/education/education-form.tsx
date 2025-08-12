@@ -86,9 +86,9 @@ export default function EducationForm({
 		mutationKey: ["education"],
 		mutationFn: async (data: Education) => {
 			if (education) {
-				await educationService.update(education.id, data)
+				await educationService.update(education.id, data as IEducation)
 			} else {
-				await educationService.create(data)
+				await educationService.create(data as IEducation)
 			}
 		},
 		onSuccess: () => {
