@@ -2,13 +2,18 @@
 
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
-import { forwardRef } from "react"
-import { FormProps, useForm } from "react-hook-form"
-import { z } from "zod"
-import { IProfile } from "@/types/profile.interfaces"
+import { useRef } from "react"
+import { useForm } from "react-hook-form"
+import { IFormProps } from "@/types/dashboard.types"
 import { profileService } from "@/services/profile.service"
-import { useProfile } from "@/hooks/useProfile"
-import { useSubmitButton } from "@/hooks/useSubmitButton"
+import { Button } from "@/components/ui/Button"
+import {
+	DialogContent,
+	DialogDescription,
+	DialogFooter,
+	DialogHeader,
+	DialogTitle,
+} from "@/components/ui/Dialog"
 import {
 	Form,
 	FormControl,
@@ -18,42 +23,42 @@ import {
 	FormMessage,
 } from "@/components/ui/Form"
 import { Textarea } from "@/components/ui/Textarea"
+import { About, AboutSchema } from "./about.schema"
 
-const schema = z.object({
-	about: z.string().max(128, "Имя должно содержать не более 128 символов"),
-})
-
-export const AboutForm = forwardRef<
-	HTMLButtonElement,
-	FormProps<z.infer<typeof schema>>
->((_, ref) => {
-	const { data } = useProfile()
-	const submitButtonRef = useSubmitButton(ref)
+export default function AboutForm({ onClose }: IFormProps) {
 	const queryClient = useQueryClient()
+	const submitButtonRef = useRef<HTMLButtonElement | null>(null)
 
-	const form = useForm<z.infer<typeof schema>>({
-		resolver: zodResolver(schema),
+	const form = useForm<About>({
+		resolver: zodResolver(AboutSchema),
 		defaultValues: {
-			about: data?.about,
+			about: "",
 		},
 	})
 
-	const { mutate } = useMutation({
+	const { mutate, isPending } = useMutation({
 		mutationKey: ["profile"],
-		mutationFn: (data: Partial<IProfile>) => profileService.update(data),
+		mutationFn: async (data: About) => {
+			await profileService.update(data)
+		},
 		onSuccess: () => {
+			onClose()
 			queryClient.invalidateQueries({ queryKey: ["profile"] })
 		},
 	})
 
-	const onSubmit = (data: z.infer<typeof schema>) => {
+	const onSubmit = (data: About) => {
 		mutate(data)
 	}
 
 	return (
-		<Form {...form}>
-			<form onSubmit={form.handleSubmit(onSubmit)}>
-				<div className='grid gap-6'>
+		<DialogContent>
+			<DialogHeader>
+				<DialogTitle>О себе</DialogTitle>
+				<DialogDescription></DialogDescription>
+			</DialogHeader>
+			<Form {...form}>
+				<form onSubmit={form.handleSubmit(onSubmit)}>
 					<FormField
 						control={form.control}
 						name='about'
@@ -72,13 +77,23 @@ export const AboutForm = forwardRef<
 							</FormItem>
 						)}
 					/>
-				</div>
-				<button
-					ref={submitButtonRef}
+					<button
+						ref={submitButtonRef}
+						type='submit'
+						hidden
+					/>
+				</form>
+			</Form>
+			<DialogFooter>
+				<Button
 					type='submit'
-					hidden
-				/>
-			</form>
-		</Form>
+					className='w-full'
+					onClick={() => submitButtonRef.current?.click()}
+					disabled={isPending}
+				>
+					Сохранить изменения
+				</Button>
+			</DialogFooter>
+		</DialogContent>
 	)
-})
+}

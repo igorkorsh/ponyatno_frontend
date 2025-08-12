@@ -1,13 +1,15 @@
 "use client"
 
-import About from "@/components/dashboard/About"
-import Account from "@/components/dashboard/Account"
+import AboutCard from "@/components/dashboard/about/about-card"
+import EducationCard from "@/components/dashboard/education/education-card"
+import ExperienceCard from "@/components/dashboard/experience/experience-card"
 
 export default function TeacherPage() {
 	return (
 		<>
-			<Account />
-			<About />
+			<AboutCard />
+			<EducationCard />
+			<ExperienceCard />
 		</>
 	)
 }

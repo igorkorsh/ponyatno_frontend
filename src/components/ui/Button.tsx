@@ -9,9 +9,9 @@ const buttonVariants = cva(
 		variants: {
 			variant: {
 				default:
-					"bg-accent-500 text-neutral-100 hover:bg-accent-600 focus:bg-accent-700",
+					"bg-accent-500 text-neutral-100 hover:bg-accent-600 focus:bg-accent-700 h-11 px-8 py-3",
 				secondary:
-					"bg-neutral-200 text-neutral-900 hover:bg-neutral-300 focus:bg-neutral-300",
+					"bg-neutral-200 text-neutral-900 hover:bg-neutral-300 focus:bg-neutral-300 h-11 px-8 py-3",
 				tertiary:
 					"bg-transparent text-neutral-900 hover:bg-neutral-300 focus:bg-neutral-300",
 				// destructive:
@@ -21,14 +21,9 @@ const buttonVariants = cva(
 				link: "text-primary underline-offset-4 hover:underline",
 				icon: "rounded-full focus-visible:bg-brand-100 text-brand-600 hover:text-brand-700",
 			},
-			size: {
-				default: "h-11 px-8 py-3",
-				icon: "",
-			},
 		},
 		defaultVariants: {
 			variant: "default",
-			size: "default",
 		},
 	},
 )
@@ -36,7 +31,6 @@ const buttonVariants = cva(
 function Button({
 	className,
 	variant,
-	size,
 	asChild = false,
 	...props
 }: ComponentProps<"button"> &
@@ -48,7 +42,7 @@ function Button({
 	return (
 		<Comp
 			data-slot='button'
-			className={cn(buttonVariants({ variant, size, className }))}
+			className={cn(buttonVariants({ variant, className }))}
 			{...props}
 		/>
 	)
