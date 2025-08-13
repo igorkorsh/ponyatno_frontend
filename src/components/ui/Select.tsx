@@ -14,9 +14,7 @@ function Select({ ...props }: ComponentProps<typeof SelectPrimitive.Root>) {
 	)
 }
 
-function SelectGroup({
-	...props
-}: ComponentProps<typeof SelectPrimitive.Group>) {
+function SelectGroup({ ...props }: ComponentProps<typeof SelectPrimitive.Group>) {
 	return (
 		<SelectPrimitive.Group
 			data-slot='select-group'
@@ -25,9 +23,7 @@ function SelectGroup({
 	)
 }
 
-function SelectValue({
-	...props
-}: ComponentProps<typeof SelectPrimitive.Value>) {
+function SelectValue({ ...props }: ComponentProps<typeof SelectPrimitive.Value>) {
 	return (
 		<SelectPrimitive.Value
 			data-slot='select-value'
@@ -49,7 +45,7 @@ function SelectTrigger({
 			data-slot='select-trigger'
 			data-size={size}
 			className={cn(
-				"focus-visible:border-ring aria-invalid:ring-danger/20 aria-invalid:border-danger focus-visible:ring-brand-600 flex h-11 w-full items-center justify-between gap-2 rounded-md border-[1.5px] border-neutral-300 bg-transparent px-4 py-2.5 text-base whitespace-nowrap transition-colors outline-none focus-visible:ring-[1.5px] focus-visible:ring-offset-[0.5px] disabled:cursor-not-allowed disabled:opacity-50 data-[placeholder]:text-neutral-600 *:data-[slot=select-value]:line-clamp-1 *:data-[slot=select-value]:flex *:data-[slot=select-value]:items-center *:data-[slot=select-value]:gap-2 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-6 [&_svg:not([class*='text-'])]:text-neutral-600",
+				"focus-visible:border-ring aria-invalid:ring-danger/20 aria-invalid:border-danger focus-visible:ring-brand-600 bg flex h-11 w-full items-center justify-between gap-2 rounded-md border-[1.5px] border-neutral-300 bg-transparent px-4 py-2.5 text-base whitespace-nowrap transition-colors outline-none focus-visible:ring-[1.5px] focus-visible:ring-offset-[0.5px] disabled:cursor-not-allowed disabled:opacity-50 data-[placeholder]:text-neutral-600 *:data-[slot=select-value]:line-clamp-1 *:data-[slot=select-value]:flex *:data-[slot=select-value]:items-center *:data-[slot=select-value]:gap-2 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-6 [&_svg:not([class*='text-'])]:text-neutral-600",
 				className,
 			)}
 			{...props}
@@ -62,12 +58,7 @@ function SelectTrigger({
 	)
 }
 
-function SelectContent({
-	className,
-	children,
-	position = "popper",
-	...props
-}: ComponentProps<typeof SelectPrimitive.Content>) {
+function SelectContent({ className, children, position = "popper", ...props }: ComponentProps<typeof SelectPrimitive.Content>) {
 	return (
 		<SelectPrimitive.Portal>
 			<SelectPrimitive.Content
@@ -83,11 +74,7 @@ function SelectContent({
 			>
 				<SelectScrollUpButton />
 				<SelectPrimitive.Viewport
-					className={cn(
-						"p-1",
-						position === "popper" &&
-							"h-[var(--radix-select-trigger-height)] w-full min-w-[var(--radix-select-trigger-width)] scroll-my-1",
-					)}
+					className={cn("p-1", position === "popper" && "h-[var(--radix-select-trigger-height)] w-full min-w-[var(--radix-select-trigger-width)] scroll-my-1")}
 				>
 					{children}
 				</SelectPrimitive.Viewport>
@@ -97,10 +84,7 @@ function SelectContent({
 	)
 }
 
-function SelectLabel({
-	className,
-	...props
-}: ComponentProps<typeof SelectPrimitive.Label>) {
+function SelectLabel({ className, ...props }: ComponentProps<typeof SelectPrimitive.Label>) {
 	return (
 		<SelectPrimitive.Label
 			data-slot='select-label'
@@ -110,11 +94,7 @@ function SelectLabel({
 	)
 }
 
-function SelectItem({
-	className,
-	children,
-	...props
-}: ComponentProps<typeof SelectPrimitive.Item>) {
+function SelectItem({ className, children, ...props }: ComponentProps<typeof SelectPrimitive.Item>) {
 	return (
 		<SelectPrimitive.Item
 			data-slot='select-item'
@@ -134,10 +114,7 @@ function SelectItem({
 	)
 }
 
-function SelectSeparator({
-	className,
-	...props
-}: ComponentProps<typeof SelectPrimitive.Separator>) {
+function SelectSeparator({ className, ...props }: ComponentProps<typeof SelectPrimitive.Separator>) {
 	return (
 		<SelectPrimitive.Separator
 			data-slot='select-separator'
@@ -147,17 +124,11 @@ function SelectSeparator({
 	)
 }
 
-function SelectScrollUpButton({
-	className,
-	...props
-}: ComponentProps<typeof SelectPrimitive.ScrollUpButton>) {
+function SelectScrollUpButton({ className, ...props }: ComponentProps<typeof SelectPrimitive.ScrollUpButton>) {
 	return (
 		<SelectPrimitive.ScrollUpButton
 			data-slot='select-scroll-up-button'
-			className={cn(
-				"flex cursor-default items-center justify-center py-1",
-				className,
-			)}
+			className={cn("flex cursor-default items-center justify-center py-1", className)}
 			{...props}
 		>
 			<ChevronUpIcon className='size-4' />
@@ -165,17 +136,11 @@ function SelectScrollUpButton({
 	)
 }
 
-function SelectScrollDownButton({
-	className,
-	...props
-}: ComponentProps<typeof SelectPrimitive.ScrollDownButton>) {
+function SelectScrollDownButton({ className, ...props }: ComponentProps<typeof SelectPrimitive.ScrollDownButton>) {
 	return (
 		<SelectPrimitive.ScrollDownButton
 			data-slot='select-scroll-down-button'
-			className={cn(
-				"flex cursor-default items-center justify-center py-1",
-				className,
-			)}
+			className={cn("flex cursor-default items-center justify-center py-1", className)}
 			{...props}
 		>
 			<ChevronDownIcon className='size-4' />

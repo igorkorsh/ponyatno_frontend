@@ -8,17 +8,10 @@ import { useState } from "react"
 import { useForm } from "react-hook-form"
 import { ILoginForm } from "@/types/auth.types"
 import { useAuth } from "@/hooks/useAuth"
-import { Alert, AlertDescription } from "@/components/ui/Alert"
-import { Button } from "@/components/ui/Button"
-import {
-	Form,
-	FormControl,
-	FormField,
-	FormItem,
-	FormLabel,
-	FormMessage,
-} from "@/components/ui/Form"
-import { Input } from "@/components/ui/Input"
+import { Alert, AlertDescription } from "@/components/ui/alert"
+import { Button } from "@/components/ui/button"
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
+import { Input } from "@/components/ui/input"
 import { type Login, LoginSchema } from "./login.schema"
 
 export default function LoginForm() {
@@ -45,8 +38,7 @@ export default function LoginForm() {
 			push("/dashboard")
 		},
 		onError: (error: AxiosError<{ message: string }>) => {
-			const message =
-				error.response?.data?.message || "Произошла неизвестная ошибка"
+			const message = error.response?.data?.message || "Произошла неизвестная ошибка"
 			setError(message)
 		},
 	})

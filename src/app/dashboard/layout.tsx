@@ -1,11 +1,7 @@
 import Sidebar from "@/components/dashboard/sidebar/Sidebar"
-import { ScrollArea } from "@/components/ui/ScrollArea"
+import { ScrollArea } from "@/components/ui/scroll-area"
 
-export default function DashboardLayout({
-	children,
-}: {
-	children: React.ReactNode
-}) {
+export default function DashboardLayout({ children }: { children: React.ReactNode }) {
 	return (
 		<div className='grid h-full grid-cols-[245px_1fr]'>
 			<Sidebar />

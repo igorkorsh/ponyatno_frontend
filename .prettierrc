@@ -1,4 +1,5 @@
 {
+	"printWidth": 160,
 	"useTabs": true,
 	"semi": false,
 	"jsxSingleQuote": true,

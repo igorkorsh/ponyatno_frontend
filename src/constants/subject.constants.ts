@@ -1,4 +1,4 @@
-export const SUBJECTS = {
+export const SUBJECTS: Record<string, string> = {
 	RUSSIAN: "Русский язык",
 	LITERATURE: "Литература",
 	TATAR: "Родной язык (татарский)",
@@ -12,18 +12,53 @@ export const SUBJECTS = {
 	SPANISH: "Испанский язык",
 	CHINESE: "Китайский язык",
 	MATH: "Математика",
-	INFORMATICS: "Информатика",
+	COMPUTER_SCIENCE: "Информатика",
 	ALGEBRA: "Алгебра",
 	GEOMETRY: "Геометрия",
 	PHYSICS: "Физика",
 	CHEMISTRY: "Химия",
 	BIOLOGY: "Биология",
-} as const
+	HISTORY: "История",
+	SOCIAL_SCIENCES: "Обществознание",
+	GEOGRAPHY: "География",
+	NATURAL_SCIENCES: "Естествознание",
+	ECONOMICS: "Экономика",
+	LAW: "Право",
+	RUSSIA_IN_WORLD: "Россия в мире",
+	ART: "Изобразительное искусство",
+	DRAWING: "Черчение",
+	MUSIC: "Музыка",
+	TECHNOLOGY: "Технология",
+	PHYSICAL_EDUCATION: "Физическая культура",
+	BSOL: "Основы безопасности жизнедеятельности",
+	ASTRONOMY: "Астрономия",
+	ECOLOGY: "Экология",
+}
 
-export const GOALS = {
+export const GRADES: Record<number, string> = {
+	0: "Дошкольники",
+	1: "1 класс",
+	2: "2 класс",
+	3: "3 класс",
+	4: "4 класс",
+	5: "5 класс",
+	6: "6 класс",
+	7: "7 класс",
+	8: "8 класс",
+	9: "9 класс",
+	10: "10 класс",
+	11: "11 класс",
+}
+
+export const PRICE: Record<string, string> = {
+	RANGE: "Фиксированная цена",
+	FIXED: "Диапазон цен",
+}
+
+export const GOALS: Record<string, string> = {
 	PFR: "Повышение успеваемости",
 	VPR: "Подготовка к ВПР",
 	OGE: "Подготовка к ОГЭ",
 	EGE: "Подготовка к ЕГЭ",
 	OLY: "Подготовка к олимпиаде",
-} as const
+}

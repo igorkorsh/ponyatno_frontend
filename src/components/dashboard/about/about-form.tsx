@@ -4,79 +4,67 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { useRef } from "react"
 import { useForm } from "react-hook-form"
-import { IFormProps } from "@/types/dashboard.types"
+import { IProfile } from "@/types/profile.types"
 import { profileService } from "@/services/profile.service"
-import { Button } from "@/components/ui/Button"
-import {
-	DialogContent,
-	DialogDescription,
-	DialogFooter,
-	DialogHeader,
-	DialogTitle,
-} from "@/components/ui/Dialog"
-import {
-	Form,
-	FormControl,
-	FormDescription,
-	FormField,
-	FormItem,
-	FormMessage,
-} from "@/components/ui/Form"
-import { Textarea } from "@/components/ui/Textarea"
-import { About, AboutSchema } from "./about.schema"
+import { FormWrapper } from "@/components/common/form-wrapper"
+import { Form, FormControl, FormField, FormItem, FormMessage } from "@/components/ui/form"
+import { Textarea } from "@/components/ui/textarea"
+import { type AboutFormValues, AboutSchema } from "./about.schema"
 
-export default function AboutForm({ onClose }: IFormProps) {
+interface AboutFormProps {
+	data: IProfile
+	onClose: () => void
+}
+
+export function AboutForm({ data, onClose }: AboutFormProps) {
 	const queryClient = useQueryClient()
 	const submitButtonRef = useRef<HTMLButtonElement | null>(null)
 
-	const form = useForm<About>({
+	const form = useForm({
 		resolver: zodResolver(AboutSchema),
 		defaultValues: {
-			about: "",
+			about: data.about || "",
 		},
 	})
 
-	const { mutate, isPending } = useMutation({
-		mutationKey: ["profile"],
-		mutationFn: async (data: About) => {
-			await profileService.update(data)
+	const { mutate } = useMutation({
+		mutationKey: ["dashboard"],
+		mutationFn: async (data: Partial<AboutFormValues>) => {
+			await profileService.updateMyProfile(data)
 		},
 		onSuccess: () => {
-			onClose()
-			queryClient.invalidateQueries({ queryKey: ["profile"] })
+			queryClient.invalidateQueries({ queryKey: ["dashboard"] })
+			onClose?.()
 		},
 	})
 
-	const onSubmit = (data: About) => {
+	const onSubmit = (data: Partial<AboutFormValues>) => {
 		mutate(data)
 	}
 
 	return (
-		<DialogContent>
-			<DialogHeader>
-				<DialogTitle>О себе</DialogTitle>
-				<DialogDescription></DialogDescription>
-			</DialogHeader>
+		<FormWrapper
+			title='О себе'
+			description='Расскажите о своих ценностях, индивидуальных особенностях и предпочтениях. Это поможет ученикам и родителям узнать вас получше. Не добавляйте сюда ссылки, контакты и цены на услуги.'
+			buttonText='Сохранить изменения'
+			onSubmit={() => submitButtonRef.current?.click()}
+		>
 			<Form {...form}>
 				<form onSubmit={form.handleSubmit(onSubmit)}>
-					<FormField
-						control={form.control}
-						name='about'
-						render={({ field }) => (
-							<FormItem>
-								<FormDescription>
-									Расскажите о своих ценностях, индивидуальных особенностях
-									и&nbsp;предпочтениях. Это поможет ученикам и&nbsp;родителям
-									узнать вас получше. Не&nbsp;добавляйте сюда ссылки, контакты
-									и&nbsp;цены на услуги.
-								</FormDescription>
-								<FormControl>
-									<Textarea {...field} />
-								</FormControl>
-								<FormMessage />
-							</FormItem>
-						)}
-					/>
+					<div className='grid gap-6'>
+						<FormField
+							control={form.control}
+							name='about'
+							render={({ field }) => (
+								<FormItem>
+									<FormControl>
+										<Textarea {...field} />
+									</FormControl>
+									<FormMessage />
+								</FormItem>
+							)}
+						/>
+					</div>
 					<button
 						ref={submitButtonRef}
 						type='submit'
@@ -84,16 +72,6 @@ export default function AboutForm({ onClose }: IFormProps) {
 					/>
 				</form>
 			</Form>
-			<DialogFooter>
-				<Button
-					type='submit'
-					className='w-full'
-					onClick={() => submitButtonRef.current?.click()}
-					disabled={isPending}
-				>
-					Сохранить изменения
-				</Button>
-			</DialogFooter>
-		</DialogContent>
+		</FormWrapper>
 	)
 }

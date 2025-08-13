@@ -2,55 +2,30 @@
 
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Label } from "@radix-ui/react-label"
-import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { useEffect, useMemo, useRef, useState } from "react"
 import { useForm } from "react-hook-form"
-import { IEducation, IFormProps } from "@/types/dashboard.types"
-import { educationService } from "@/services/education.service"
-import { Button } from "@/components/ui/Button"
-import {
-	DialogContent,
-	DialogDescription,
-	DialogFooter,
-	DialogHeader,
-	DialogTitle,
-} from "@/components/ui/Dialog"
-import {
-	Form,
-	FormControl,
-	FormField,
-	FormItem,
-	FormLabel,
-	FormMessage,
-} from "@/components/ui/Form"
-import { Input } from "@/components/ui/Input"
-import {
-	Select,
-	SelectContent,
-	SelectItem,
-	SelectTrigger,
-	SelectValue,
-} from "@/components/ui/Select"
-import { Switch } from "@/components/ui/Switch"
+import { IEducation } from "@/types/profile.types"
+import { useEducation } from "@/hooks/useEducation"
+import { Button } from "@/components/ui/button"
+import { DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog"
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
+import { Input } from "@/components/ui/input"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { Switch } from "@/components/ui/switch"
 import { DEGREES } from "@/constants/education.constants"
-import { Education, EducationSchema } from "./education.schema"
+import { getYears } from "@/utils/years"
+import { type EducationFormValues, EducationSchema } from "./education.schema"
 
-interface EducationFormProps extends IFormProps {
-	education: IEducation | null
+interface EducationFormProps {
+	data: IEducation | null
+	onClose: () => void
 }
 
-export default function EducationForm({
-	education,
-	onClose,
-}: EducationFormProps) {
-	const queryClient = useQueryClient()
-	const [isCurrent, setIsCurrent] = useState(false)
+export function EducationForm({ data, onClose }: EducationFormProps) {
+	const [itemId, setItemId] = useState<string | null>(null)
+	const [isEndDate, setIsEndDate] = useState(false)
 	const submitButtonRef = useRef<HTMLButtonElement | null>(null)
-
-	const years = useMemo((): number[] => {
-		const endYear = new Date().getFullYear() + 10
-		return Array.from({ length: endYear - 1899 }, (_, i) => endYear - i)
-	}, [])
+	const years = useMemo(() => getYears(10), [])
 
 	const defaultValues = {
 		degree: "BACHELOR",
@@ -60,53 +35,42 @@ export default function EducationForm({
 		endDate: null,
 	}
 
-	const form = useForm<Education>({
+	const form = useForm<EducationFormValues>({
 		resolver: zodResolver(EducationSchema),
 		defaultValues,
 	})
 
-	useEffect(() => {
-		if (education) {
-			form.reset({
-				degree: education.degree,
-				institution: education.institution,
-				speciality: education.speciality,
-				startDate: education.startDate,
-				endDate: education.endDate,
-			})
+	const { createItem, updateItem } = useEducation()
 
-			setIsCurrent(!education.endDate)
+	useEffect(() => {
+		if (data) {
+			setItemId(data.id)
+			form.reset({
+				degree: data.degree,
+				institution: data.institution,
+				speciality: data.speciality,
+				startDate: data.startDate,
+				endDate: data.endDate,
+			})
 		} else {
 			form.reset(defaultValues)
-			setIsCurrent(false)
+			setItemId(null)
 		}
-	}, [education])
+	}, [data, form])
 
-	const { mutate, isPending } = useMutation({
-		mutationKey: ["education"],
-		mutationFn: async (data: Education) => {
-			if (education) {
-				await educationService.update(education.id, data as IEducation)
-			} else {
-				await educationService.create(data as IEducation)
-			}
-		},
-		onSuccess: () => {
-			onClose()
-			queryClient.invalidateQueries({ queryKey: ["education"] })
-		},
-	})
-
-	const onSubmit = (data: Education) => {
-		mutate(data)
+	const onSubmit = (data: EducationFormValues) => {
+		if (itemId) {
+			updateItem({ id: itemId, data })
+		} else {
+			createItem(data)
+		}
+		onClose?.()
 	}
 
 	return (
 		<DialogContent>
 			<DialogHeader>
-				<DialogTitle>
-					{education ? "Редактировать образование" : "Добавить образование"}
-				</DialogTitle>
+				<DialogTitle>{data ? "Редактировать образование" : "Добавить образование"}</DialogTitle>
 				<DialogDescription></DialogDescription>
 			</DialogHeader>
 			<Form {...form}>
@@ -119,11 +83,9 @@ export default function EducationForm({
 						name='degree'
 						render={({ field: { onChange, value } }) => (
 							<FormItem>
-								<FormLabel>
-									Степень образования<span className='text-danger'>*</span>
-								</FormLabel>
+								<FormLabel>Степень образования</FormLabel>
 								<Select
-									defaultValue={value}
+									value={value}
 									onValueChange={onChange}
 								>
 									<FormControl>
@@ -151,7 +113,7 @@ export default function EducationForm({
 						name='institution'
 						render={({ field }) => (
 							<FormItem>
-								<FormLabel>
+								<FormLabel className='gap-1'>
 									Учебное заведение<span className='text-danger'>*</span>
 								</FormLabel>
 								<FormControl>
@@ -166,7 +128,7 @@ export default function EducationForm({
 						name='speciality'
 						render={({ field }) => (
 							<FormItem>
-								<FormLabel>
+								<FormLabel className='gap-1'>
 									Специальность<span className='text-danger'>*</span>
 								</FormLabel>
 								<FormControl>
@@ -179,7 +141,7 @@ export default function EducationForm({
 					<FormField
 						control={form.control}
 						name='startDate'
-						render={({ field: { value, onChange } }) => (
+						render={({ field: { onChange, value } }) => (
 							<FormItem>
 								<FormLabel>Год начала обучения</FormLabel>
 								<Select
@@ -206,15 +168,13 @@ export default function EducationForm({
 							</FormItem>
 						)}
 					/>
-					{!isCurrent && (
+					{!isEndDate && (
 						<FormField
 							control={form.control}
 							name='endDate'
-							render={({ field: { value, onChange } }) => {
+							render={({ field: { onChange, value } }) => {
 								const startYear = form.watch("startDate")
-								const filteredYears = years.filter(
-									(year) => !startYear || year >= startYear,
-								)
+								const filteredYears = years.filter((year) => !startYear || year >= startYear)
 
 								return (
 									<FormItem>
@@ -247,10 +207,12 @@ export default function EducationForm({
 					)}
 					<Label className='flex items-center gap-2 text-sm font-medium text-neutral-900'>
 						<Switch
-							checked={isCurrent}
+							checked={isEndDate}
 							onCheckedChange={(checked) => {
-								setIsCurrent(checked)
-								if (checked) form.setValue("endDate", null)
+								setIsEndDate(checked)
+								if (checked) {
+									form.setValue("endDate", null)
+								}
 							}}
 						/>
 						Прохожу обучение в данный момент
@@ -266,10 +228,10 @@ export default function EducationForm({
 				<Button
 					type='submit'
 					className='w-full'
+					size='lg'
 					onClick={() => submitButtonRef.current?.click()}
-					disabled={isPending}
 				>
-					{education ? "Сохранить изменения" : "Добавить запись"}
+					{data ? "Сохранить изменения" : "Добавить запись"}
 				</Button>
 			</DialogFooter>
 		</DialogContent>

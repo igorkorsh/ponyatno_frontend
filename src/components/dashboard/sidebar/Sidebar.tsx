@@ -1,21 +1,15 @@
 "use client"
 
-import {
-	CreditCard,
-	LogOut,
-	MessageCircle,
-	Star,
-	UserRound,
-} from "lucide-react"
+import { CreditCard, LogOut, MessageCircle, Star, UserRound } from "lucide-react"
 import { useRouter } from "next/navigation"
 import { authService } from "@/services/auth.service"
-import { useProfile } from "@/hooks/useProfile"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/Avatar"
-import { Button } from "@/components/ui/Button"
+import { useDashboard } from "@/hooks/useDashboard"
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { Button } from "@/components/ui/button"
 import MenuItem from "./MenuItem"
 
 export default function Sidebar() {
-	const { data } = useProfile()
+	const { data } = useDashboard()
 	const { push } = useRouter()
 
 	const handleLogout = async () => {
@@ -46,22 +40,14 @@ export default function Sidebar() {
 				<div className='flex items-center gap-2'>
 					<Avatar size='sm'>
 						<AvatarImage />
-						<AvatarFallback size='sm'>
-							{data?.firstName.charAt(0).toUpperCase() ||
-								data?.username.charAt(0).toUpperCase()}
-						</AvatarFallback>
+						<AvatarFallback size='sm'>{data?.firstName.charAt(0).toUpperCase() || data?.username.charAt(0).toUpperCase()}</AvatarFallback>
 					</Avatar>
 					<div className='flex flex-col gap-1'>
-						{data?.firstName && (
-							<p className='text-base font-semibold text-neutral-100'>
-								{data.firstName.split(" ")[0]}
-							</p>
-						)}
+						{data?.firstName && <p className='text-base font-semibold text-neutral-100'>{data.firstName.split(" ")[0]}</p>}
 						<p className='text-xs text-neutral-100'>{data?.username}</p>
 					</div>
 				</div>
 				<Button
-					variant='icon'
 					className='size-10 !text-neutral-100 focus-visible:bg-neutral-100/20'
 					onClick={handleLogout}
 				>

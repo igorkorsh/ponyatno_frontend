@@ -1,13 +1,6 @@
-import { PropsWithChildren, useRef } from "react"
-import { IFormProps } from "@/types/dashboard.types"
-import { Button } from "@/components/ui/Button"
-import {
-	DialogContent,
-	DialogDescription,
-	DialogFooter,
-	DialogHeader,
-	DialogTitle,
-} from "@/components/ui/Dialog"
+import { PropsWithChildren } from "react"
+import { Button } from "@/components/ui/button"
+import { DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 
 interface IFormWrapperProps {
 	title: string
@@ -16,13 +9,7 @@ interface IFormWrapperProps {
 	onSubmit: () => void
 }
 
-export function FormWrapper({
-	children,
-	title,
-	description = "",
-	buttonText,
-	onSubmit,
-}: PropsWithChildren<IFormWrapperProps>) {
+export function FormWrapper({ children, title, description = "", buttonText, onSubmit }: PropsWithChildren<IFormWrapperProps>) {
 	return (
 		<DialogContent>
 			<DialogHeader>

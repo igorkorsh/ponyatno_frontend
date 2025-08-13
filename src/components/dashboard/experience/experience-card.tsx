@@ -5,8 +5,8 @@ import { useState } from "react"
 import { IEducation, IExperience, IItemProps } from "@/types/dashboard.types"
 import { experienceService } from "@/services/experience.service"
 import { useExperience } from "@/hooks/useExperience"
-import { Button } from "@/components/ui/Button"
-import { Dialog, DialogTrigger } from "@/components/ui/Dialog"
+import { Button } from "@/components/ui/button"
+import { Dialog, DialogTrigger } from "@/components/ui/dialog"
 import ExperienceForm from "./experience-form"
 
 export default function ExperienceCard() {
@@ -37,9 +37,7 @@ export default function ExperienceCard() {
 		<div>Loading...</div>
 	) : (
 		<div className='flex flex-col gap-3'>
-			<h2 className='text-lg font-semibold text-neutral-900 md:text-xl'>
-				Опыт работы
-			</h2>
+			<h2 className='text-lg font-semibold text-neutral-900 md:text-xl'>Опыт работы</h2>
 			<div className='relative ms-2 flex flex-col gap-3 rounded-lg bg-neutral-100 p-4 transition-all lg:p-6'>
 				<Dialog
 					open={isOpen}
@@ -59,9 +57,7 @@ export default function ExperienceCard() {
 						onClose={handleClose}
 					/>
 				</Dialog>
-				<p className='pe-10 text-lg font-semibold text-neutral-900 lg:ps-2'>
-					Опыт работы
-				</p>
+				<p className='pe-10 text-lg font-semibold text-neutral-900 lg:ps-2'>Опыт работы</p>
 				{data && data.length > 0 && (
 					<div className='flex flex-col gap-2'>
 						{data?.map((item, idx) => (
@@ -78,13 +74,7 @@ export default function ExperienceCard() {
 		</div>
 	)
 }
-export function ExperienceItem({
-	id,
-	years,
-	description,
-	onUpdate,
-	onDelete,
-}: IExperience & IItemProps) {
+export function ExperienceItem({ id, years, description, onUpdate, onDelete }: IExperience & IItemProps) {
 	return (
 		<div
 			className='group relative flex flex-col justify-between overflow-hidden rounded-xs bg-neutral-100 p-2 transition-colors outline-none focus-within:bg-neutral-200 hover:bg-neutral-200'

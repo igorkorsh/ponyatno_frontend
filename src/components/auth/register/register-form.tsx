@@ -8,18 +8,11 @@ import { useState } from "react"
 import { useForm } from "react-hook-form"
 import { IRegisterForm } from "@/types/auth.types"
 import { useAuth } from "@/hooks/useAuth"
-import { Alert, AlertDescription } from "@/components/ui/Alert"
-import { Button } from "@/components/ui/Button"
-import {
-	Form,
-	FormControl,
-	FormField,
-	FormItem,
-	FormLabel,
-	FormMessage,
-} from "@/components/ui/Form"
-import { Input } from "@/components/ui/Input"
-import { Tabs, TabsList, TabsTrigger } from "@/components/ui/Tabs"
+import { Alert, AlertDescription } from "@/components/ui/alert"
+import { Button } from "@/components/ui/button"
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
+import { Input } from "@/components/ui/input"
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { type Register, RegisterSchema } from "./register.schema"
 
 export default function RegisterForm() {
@@ -48,8 +41,7 @@ export default function RegisterForm() {
 			push("/dashboard")
 		},
 		onError: (error: AxiosError<{ message: string }>) => {
-			const message =
-				error.response?.data?.message || "Произошла неизвестная ошибка"
+			const message = error.response?.data?.message || "Произошла неизвестная ошибка"
 			setError(message)
 		},
 	})

@@ -1,9 +1,9 @@
-import z from "zod"
+import { z } from "zod"
 import { DEGREES } from "@/constants/education.constants"
 
 export const EducationSchema = z.object({
 	degree: z.enum(Object.keys(DEGREES), {
-		message: "Укажите степень образования",
+		message: "Обязательное поле",
 	}),
 	institution: z.string().min(1, "Укажите название учебного заведения"),
 	speciality: z.string().min(1, "Укажите специальность"),
@@ -11,4 +11,4 @@ export const EducationSchema = z.object({
 	endDate: z.number().nullable(),
 })
 
-export type Education = z.infer<typeof EducationSchema>
+export type EducationFormValues = z.infer<typeof EducationSchema>

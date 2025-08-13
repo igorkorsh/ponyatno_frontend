@@ -1,124 +1,98 @@
 "use client"
 
-import { Pencil, Plus, Trash2 } from "lucide-react"
-import { useState } from "react"
-import { IItemProps, ISubject } from "@/types/dashboard.types"
-import { subjectService } from "@/services/subject.service"
+import { Accessibility } from "lucide-react"
+import { useCallback, useState } from "react"
+import { Goal, ISubject } from "@/types/profile.types"
 import { useSubject } from "@/hooks/useSubject"
-import { Button } from "@/components/ui/Button"
-import { Dialog, DialogTrigger } from "@/components/ui/Dialog"
-import { GOALS, SUBJECTS } from "@/constants/subject.constants"
-import SubjectForm from "./subject-form"
+import { CardWrapper } from "@/components/common/card-wrapper"
+import { Item } from "@/components/common/item"
+import { Badge } from "@/components/ui/badge"
+import { GOALS, GRADES, SUBJECTS } from "@/constants/subject.constants"
+import { cn } from "@/utils/cn"
+import { formatCurrency } from "@/utils/format-currency"
+import { formatGrades } from "@/utils/format-grades"
+import { SubjectForm } from "./subject-form"
 
-export default function SubjectCard() {
+export function SubjectCard() {
 	const [isOpen, setIsOpen] = useState(false)
-	const [subject, setSubject] = useState<ISubject | null>(null)
+	const [data, setData] = useState<ISubject | null>(null)
+	const { data: subjects, updateItem, deleteItem } = useSubject()
 
-	const { data, isLoading, deleteItem } = useSubject()
-
-	const handleOpenChange = (open: boolean) => {
+	const handleOpenChange = useCallback((open: boolean) => {
 		setIsOpen(open)
 		if (!open) {
-			setSubject(null)
+			setData(null)
 		}
-	}
+	}, [])
 
-	const handleClose = () => {
+	const handleUpdate = useCallback(
+		(id: string) => {
+			const item: ISubject = subjects?.find((subject) => subject.id === id)
+
+			if (item) {
+				setData(item)
+				setIsOpen(true)
+			}
+		},
+		[subjects],
+	)
+
+	const handleClose = useCallback(() => {
+		setData(null)
 		setIsOpen(false)
-		setSubject(null)
-	}
+	}, [])
 
-	const handleUpdate = async (id: string) => {
-		const subject = await subjectService.getById(id)
-		setSubject(subject)
-		setIsOpen(true)
-	}
-
-	return isLoading ? (
-		<div>Loading...</div>
-	) : (
-		<div className='flex flex-col gap-3'>
-			<h2 className='text-lg font-semibold text-neutral-900 md:text-xl'>
-				Предметы
-			</h2>
-			<div className='relative ms-2 flex flex-col gap-3 rounded-lg bg-neutral-100 p-4 transition-all lg:p-6'>
-				<Dialog
-					open={isOpen}
-					onOpenChange={handleOpenChange}
-				>
-					<DialogTrigger asChild>
-						<Button
-							tabIndex={0}
-							variant='icon'
-							className='absolute top-2 right-2 size-10 lg:top-4'
-						>
-							<Plus />
-						</Button>
-					</DialogTrigger>
+	return (
+		subjects && (
+			<CardWrapper
+				title='Предметы'
+				dialog={
 					<SubjectForm
-						subject={subject}
+						data={data}
 						onClose={handleClose}
 					/>
-				</Dialog>
-				<p className='pe-10 text-lg font-semibold text-neutral-900 lg:ps-2'>
-					Предметы
-				</p>
-				{data && data.length > 0 && (
-					<div className='flex flex-col gap-2'>
-						{data?.map((item, idx) => (
-							<SubjectItem
-								key={idx}
-								{...item}
-								onUpdate={handleUpdate}
-								onDelete={() => deleteItem(item.id)}
-							/>
-						))}
-					</div>
-				)}
-			</div>
-		</div>
-	)
-}
+				}
+				open={isOpen}
+				onOpenChange={handleOpenChange}
+			>
+				{subjects.map(({ id, name, grades, minPrice, maxPrice, goals, disabilities, isArchived }, idx) => {
+					const price = minPrice === maxPrice ? formatCurrency(maxPrice) : `${formatCurrency(minPrice)} – ${formatCurrency(maxPrice)}`
 
-export function SubjectItem({
-	id,
-	name,
-	goals,
-	disabilities,
-	onUpdate,
-	onDelete,
-}: ISubject & IItemProps) {
-	return (
-		<div
-			className='group relative flex flex-col justify-between overflow-hidden rounded-xs bg-neutral-100 p-2 transition-colors outline-none focus-within:bg-neutral-200 hover:bg-neutral-200'
-			tabIndex={0}
-		>
-			<div className='flex max-w-[calc(100%-96px)] -translate-x-2 flex-col gap-1 transition-transform group-focus-within:translate-x-0 group-hover:translate-x-0'>
-				<p className='text-base font-semibold text-neutral-900'>
-					{SUBJECTS[name]}
-				</p>
-				<p className='text-sm text-neutral-600'>
-					{goals.map((goal) => GOALS[goal]).join(", ")}
-				</p>
-			</div>
-			<div>
-				<button
-					type='button'
-					className='bg-brand-600 hover:bg-brand-500 focus:bg-brand-500 absolute inset-y-0 end-12 flex w-12 cursor-pointer items-center justify-center text-neutral-100 opacity-0 transition-opacity outline-none group-focus-within:opacity-100 group-hover:opacity-100'
-					tabIndex={0}
-					onClick={() => onUpdate(id)}
-				>
-					<Pencil />
-				</button>
-				<button
-					type='button'
-					className='bg-danger hover:bg-danger/90 focus:bg-danger/90 absolute inset-y-0 end-0 flex w-12 cursor-pointer items-center justify-center text-neutral-100 opacity-0 transition-opacity outline-none group-focus-within:opacity-100 group-hover:opacity-100'
-					tabIndex={0}
-					onClick={() => onDelete(id)}
-				>
-					<Trash2 />
-				</button>
-			</div>
-		</div>
+					return (
+						<Item
+							key={idx}
+							id={id}
+							isArchived={isArchived}
+							onUpdate={() => handleUpdate(id)}
+							onArchive={() => updateItem({ id, data: { isArchived: !isArchived } })}
+							onDelete={() => deleteItem(id)}
+							className={cn(isArchived && "opacity-50")}
+						>
+							<div className='flex items-center gap-2'>
+								<p className='text-base font-semibold text-neutral-900'>{SUBJECTS[name]}</p>
+								{disabilities && <Accessibility className='size-5' />}
+							</div>
+							<p className='text-sm text-neutral-600'>Стоимость: {price}</p>
+							{grades.length > 0 && (
+								<div className='flex items-center gap-1'>
+									{formatGrades(grades)
+										.split(", ")
+										.map((range, idx) => (
+											<Badge key={idx}>{range}</Badge>
+										))}
+								</div>
+							)}
+							{goals.length > 0 && (
+								<div className='flex items-center gap-1'>
+									{goals.map((goal: Goal) => (
+										<Badge key={goal}>{GOALS[goal]}</Badge>
+									))}
+								</div>
+							)}
+						</Item>
+					)
+				})}
+			</CardWrapper>
+		)
 	)
 }

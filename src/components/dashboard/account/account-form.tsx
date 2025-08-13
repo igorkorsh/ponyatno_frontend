@@ -6,48 +6,37 @@ import { format } from "date-fns"
 import { ru } from "date-fns/locale/ru"
 import { useRef } from "react"
 import { useForm } from "react-hook-form"
-import { IStudent, ITeacher } from "@/types/profile.types"
+import { IProfile } from "@/types/profile.types"
 import { profileService } from "@/services/profile.service"
 import { FormWrapper } from "@/components/common/form-wrapper"
-import { Button } from "@/components/ui/Button"
-import { Calendar } from "@/components/ui/Calendar"
-import {
-	Form,
-	FormControl,
-	FormDescription,
-	FormField,
-	FormItem,
-	FormLabel,
-	FormMessage,
-} from "@/components/ui/Form"
-import { Input } from "@/components/ui/Input"
-import { Label } from "@/components/ui/Label"
-import {
-	Popover,
-	PopoverContent,
-	PopoverTrigger,
-} from "@/components/ui/Popover"
-import { RadioGroup, RadioGroupItem } from "@/components/ui/RadioGroup"
-import { Switch } from "@/components/ui/Switch"
+import { Button } from "@/components/ui/button"
+import { Calendar } from "@/components/ui/calendar"
+import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
+import { Switch } from "@/components/ui/switch"
 import { type Account, AccountSchema } from "./account.schema"
 
 interface AccountFormProps {
-	data: ITeacher | IStudent
+	data: IProfile
 	onClose: () => void
 }
 
 export function AccountForm({ data, onClose }: AccountFormProps) {
 	const queryClient = useQueryClient()
 	const submitButtonRef = useRef<HTMLButtonElement | null>(null)
+	const { firstName, lastName, birthDate, gender, isActive } = data
 
 	const form = useForm({
 		resolver: zodResolver(AccountSchema),
 		defaultValues: {
-			firstName: data.firstName || "",
-			lastName: (data as ITeacher).lastName || "",
-			birthDate: data.birthDate || "",
-			gender: data.gender || undefined,
-			isActive: (data as ITeacher).isActive || true,
+			firstName: firstName || "",
+			lastName: lastName || "",
+			birthDate: birthDate || "",
+			gender: gender || undefined,
+			isActive: isActive || true,
 		},
 	})
 
@@ -57,7 +46,7 @@ export function AccountForm({ data, onClose }: AccountFormProps) {
 			await profileService.updateMyProfile(data)
 		},
 		onSuccess: () => {
-			queryClient.invalidateQueries({ queryKey: ["profile"] })
+			queryClient.invalidateQueries({ queryKey: ["dashboard"] })
 			onClose?.()
 		},
 	})
@@ -99,10 +88,7 @@ export function AccountForm({ data, onClose }: AccountFormProps) {
 							render={({ field }) => (
 								<FormItem>
 									<FormLabel>Фамилия</FormLabel>
-									<FormDescription>
-										Ученики не видят вашу фамилию. Она нужна только для
-										верификации аккаунта.
-									</FormDescription>
+									<FormDescription>Ученики не видят вашу фамилию. Она нужна только для верификации аккаунта.</FormDescription>
 									<FormControl>
 										<Input
 											placeholder='Иванов'
@@ -127,13 +113,7 @@ export function AccountForm({ data, onClose }: AccountFormProps) {
 													size='lg'
 													className='justify-start text-base font-normal'
 												>
-													{value ? (
-														format(value, "dd MMMM yyyy", { locale: ru })
-													) : (
-														<span className='text-neutral-400'>
-															Выберите дату
-														</span>
-													)}
+													{value ? format(value, "dd MMMM yyyy", { locale: ru }) : <span className='text-neutral-400'>Выберите дату</span>}
 												</Button>
 											</FormControl>
 										</PopoverTrigger>

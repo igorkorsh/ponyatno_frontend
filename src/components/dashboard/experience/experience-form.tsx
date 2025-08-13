@@ -6,40 +6,18 @@ import { useEffect, useRef } from "react"
 import { useForm } from "react-hook-form"
 import { IExperience, IFormProps } from "@/types/dashboard.types"
 import { experienceService } from "@/services/experience.service"
-import { Button } from "@/components/ui/Button"
-import {
-	DialogContent,
-	DialogDescription,
-	DialogFooter,
-	DialogHeader,
-	DialogTitle,
-} from "@/components/ui/Dialog"
-import {
-	Form,
-	FormControl,
-	FormField,
-	FormItem,
-	FormLabel,
-	FormMessage,
-} from "@/components/ui/Form"
-import {
-	Select,
-	SelectContent,
-	SelectItem,
-	SelectTrigger,
-	SelectValue,
-} from "@/components/ui/Select"
-import { Textarea } from "@/components/ui/Textarea"
+import { Button } from "@/components/ui/button"
+import { DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog"
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { Textarea } from "@/components/ui/textarea"
 import { Experience, ExperienceSchema } from "./experience.schema"
 
 interface ExperienceFormProps extends IFormProps {
 	experience: IExperience | null
 }
 
-export default function ExperienceForm({
-	experience,
-	onClose,
-}: ExperienceFormProps) {
+export default function ExperienceForm({ experience, onClose }: ExperienceFormProps) {
 	const queryClient = useQueryClient()
 	const submitButtonRef = useRef<HTMLButtonElement | null>(null)
 
@@ -86,9 +64,7 @@ export default function ExperienceForm({
 	return (
 		<DialogContent>
 			<DialogHeader>
-				<DialogTitle>
-					{experience ? "Редактировать опыт" : "Добавить опыт"}
-				</DialogTitle>
+				<DialogTitle>{experience ? "Редактировать опыт" : "Добавить опыт"}</DialogTitle>
 				<DialogDescription></DialogDescription>
 			</DialogHeader>
 			<Form {...form}>
@@ -114,16 +90,14 @@ export default function ExperienceForm({
 										</SelectTrigger>
 									</FormControl>
 									<SelectContent>
-										{Array.from({ length: 50 }, (_, i) => i + 1).map(
-											(value) => (
-												<SelectItem
-													key={value}
-													value={value.toString()}
-												>
-													{value}
-												</SelectItem>
-											),
-										)}
+										{Array.from({ length: 50 }, (_, i) => i + 1).map((value) => (
+											<SelectItem
+												key={value}
+												value={value.toString()}
+											>
+												{value}
+											</SelectItem>
+										))}
 									</SelectContent>
 								</Select>
 								<FormMessage />

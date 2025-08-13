@@ -1,5 +1,6 @@
 import type { Metadata } from "next"
 import { Golos_Text } from "next/font/google"
+import { Toaster } from "@/components/ui/sonner"
 import "./globals.css"
 import { Providers } from "./providers"
 
@@ -21,6 +22,7 @@ export default function RootLayout({
 		<html lang='ru'>
 			<body className={golos.className}>
 				<Providers>{children}</Providers>
+				<Toaster />
 			</body>
 		</html>
 	)

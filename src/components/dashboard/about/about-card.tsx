@@ -2,24 +2,23 @@
 
 import { SquarePen } from "lucide-react"
 import { useState } from "react"
-import { useProfile } from "@/hooks/useProfile"
-import { Button } from "@/components/ui/Button"
-import { Dialog, DialogTrigger } from "@/components/ui/Dialog"
-import AboutForm from "./about-form"
+import { useDashboard } from "@/hooks/useDashboard"
+import { Button } from "@/components/ui/button"
+import { Dialog, DialogTrigger } from "@/components/ui/dialog"
+import { AboutForm } from "./about-form"
 
-export default function AboutCard() {
+export function AboutCard() {
 	const [isOpen, setIsOpen] = useState(false)
+	const { data } = useDashboard()
 
-	const { data, isLoading } = useProfile()
+	if (!data) return null
 
-	return isLoading ? (
-		<div>Loading...</div>
-	) : (
+	return (
 		<div className='flex flex-col gap-3'>
-			<h2 className='text-lg font-semibold text-neutral-900 md:text-xl'>
+			{/* <h2 className='text-lg font-semibold text-neutral-900 lg:text-xl'>
 				О себе
-			</h2>
-			<div className='relative ms-2 flex flex-col gap-3 rounded-lg bg-neutral-100 p-4 transition-all lg:p-6'>
+			</h2> */}
+			<div className='relative flex flex-col gap-3 rounded-lg bg-neutral-100 p-4 transition-all lg:p-6'>
 				<Dialog
 					open={isOpen}
 					onOpenChange={setIsOpen}
@@ -27,17 +26,21 @@ export default function AboutCard() {
 					<DialogTrigger asChild>
 						<Button
 							tabIndex={0}
-							variant='icon'
-							className='absolute top-2 right-2 size-10 lg:top-4'
+							variant='ghost'
+							size='icon'
+							className='focus-visible:bg-brand-100 absolute top-2 right-2 size-10 cursor-pointer rounded-full lg:top-4 lg:right-4'
 						>
-							<SquarePen />
+							<SquarePen className='text-brand-600 hover:text-brand-700 size-6' />
 						</Button>
 					</DialogTrigger>
-					<AboutForm onClose={() => setIsOpen(false)} />
+					<AboutForm
+						data={data}
+						onClose={() => setIsOpen(false)}
+					/>
 				</Dialog>
 				<p className='pe-10 text-lg font-semibold text-neutral-900'>О себе</p>
 				<p className='text-sm text-neutral-600'>
-					{data.about ??
+					{data.about ||
 						"Расскажите о своих ценностях, индивидуальных особенностях и предпочтениях. Это поможет ученикам и родителям узнать вас получше. Не добавляйте сюда ссылки, контакты и цены на услуги."}
 				</p>
 			</div>
