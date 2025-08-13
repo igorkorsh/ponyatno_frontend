@@ -15,7 +15,7 @@ import { Button } from "@/components/ui/Button"
 import MenuItem from "./MenuItem"
 
 export default function Sidebar() {
-	const { data, isLoading } = useProfile()
+	const { data } = useProfile()
 	const { push } = useRouter()
 
 	const handleLogout = async () => {
@@ -24,15 +24,13 @@ export default function Sidebar() {
 	}
 
 	const menuItems = [
-		{ icon: <UserRound />, label: "Профиль", href: "/" },
-		{ icon: <MessageCircle />, label: "Cообщения", href: "/" },
-		{ icon: <Star />, label: "Отзывы", href: "/" },
-		{ icon: <CreditCard />, label: "Подписки", href: "/" },
+		{ icon: <UserRound />, label: "Профиль", href: "/dashboard" },
+		{ icon: <MessageCircle />, label: "Cообщения", href: "/dashboard/chats" },
+		{ icon: <Star />, label: "Отзывы", href: "/dashboard/reviews" },
+		{ icon: <CreditCard />, label: "Подписки", href: "/dashboard/payment" },
 	]
 
-	return isLoading ? (
-		<div>Loading...</div>
-	) : (
+	return (
 		<div className='bg-brand-600 flex flex-col justify-between p-6 text-neutral-100'>
 			<div className='-mx-2 flex flex-col gap-2'>
 				{menuItems.map(({ icon, label, href }) => (
@@ -48,13 +46,18 @@ export default function Sidebar() {
 				<div className='flex items-center gap-2'>
 					<Avatar size='sm'>
 						<AvatarImage />
-						<AvatarFallback size='sm'>{data.firstName[0]}</AvatarFallback>
+						<AvatarFallback size='sm'>
+							{data?.firstName.charAt(0).toUpperCase() ||
+								data?.username.charAt(0).toUpperCase()}
+						</AvatarFallback>
 					</Avatar>
 					<div className='flex flex-col gap-1'>
-						<p className='text-base font-semibold text-neutral-100'>
-							{data.firstName.split(" ")[0]}
-						</p>
-						<p className='text-xs text-neutral-100'>{data.username}</p>
+						{data?.firstName && (
+							<p className='text-base font-semibold text-neutral-100'>
+								{data.firstName.split(" ")[0]}
+							</p>
+						)}
+						<p className='text-xs text-neutral-100'>{data?.username}</p>
 					</div>
 				</div>
 				<Button

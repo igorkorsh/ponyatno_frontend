@@ -1,11 +1,24 @@
-import { IAuthResponse, ILoginForm } from "@/types/auth.interfaces"
+import { IAuthResponse, ILoginForm, IRegisterForm } from "@/types/auth.types"
 import { axiosInstance } from "@/api/interceptors"
 import { jwtService } from "./jwt.service"
 
 export const authService = {
-	async login(data: ILoginForm) {
+	async login(data: ILoginForm): Promise<IAuthResponse> {
 		const response = await axiosInstance.post<IAuthResponse>(
 			"/auth/login",
+			data,
+		)
+
+		if (response.data.accessToken) {
+			jwtService.setAccessToken(response.data.accessToken)
+		}
+
+		return response.data
+	},
+
+	async register(data: IRegisterForm): Promise<IAuthResponse> {
+		const response = await axiosInstance.post<IAuthResponse>(
+			"/auth/register",
 			data,
 		)
 

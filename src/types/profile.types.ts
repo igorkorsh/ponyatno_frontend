@@ -1,19 +1,16 @@
 export interface IProfile {
 	username: string
 	firstName: string
-	birthDate?: Date
-	gender?: Gender
+	birthDate?: string
+	gender: "MALE" | "FEMALE" | null
+	avatar?: string
+}
+
+export interface ITeacher extends IProfile {
+	lastName?: string
+	about: string
+	isActive: boolean
 	isVerified: boolean
 }
 
-export interface ITeacherProfile extends IProfile {
-	lastName?: string
-	about?: string
-}
-
-export interface IStudentProfile extends IProfile {}
-
-export enum Gender {
-	MALE,
-	FEMALE,
-}
+export interface IStudent extends IProfile {}

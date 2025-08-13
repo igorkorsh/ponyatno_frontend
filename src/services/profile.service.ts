@@ -1,16 +1,31 @@
-import { IProfile } from "@/types/profile.interfaces"
-import { axiosWithAuth } from "@/api/interceptors"
+import { IStudent, ITeacher } from "@/types/profile.types"
+import { axiosInstance, axiosWithAuth } from "@/api/interceptors"
 
 export const profileService = {
-	async me() {
-		const response = await axiosWithAuth.get<Profile>("/profile/@me")
-
+	async getMyProfile() {
+		const response = await axiosWithAuth.get<ITeacher | IStudent>(
+			"/profile/@me",
+		)
 		return response.data
 	},
 
-	async update(data: Partial<Profile>) {
-		const response = await axiosWithAuth.patch<Profile>("/profile/@me", data)
+	async updateMyProfile(data: Partial<ITeacher | IStudent>) {
+		await axiosWithAuth.patch("/profile/@me", data)
+	},
 
+	async getProfile(username: string) {
+		const response = await axiosInstance.get<ITeacher | IStudent>(
+			`/profile/${username}`,
+		)
+		return response.data
+	},
+
+	async search(subject: string) {
+		const response = await axiosInstance.get("/teachers", {
+			params: {
+				subject,
+			},
+		})
 		return response.data
 	},
 }

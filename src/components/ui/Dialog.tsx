@@ -77,7 +77,7 @@ function DialogContent({
 			<DialogPrimitive.Content
 				data-slot='dialog-content'
 				className={cn(
-					"bg-background data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 shadow-base fixed left-1/2 z-50 grid w-full -translate-x-1/2 gap-4 rounded-tl-lg rounded-tr-lg p-4 duration-200 max-md:bottom-0 md:top-1/2 md:max-w-[505px] md:-translate-y-1/2 md:rounded-xl md:p-6",
+					"bg-background data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 shadow-base fixed left-1/2 z-50 grid w-full -translate-x-1/2 gap-4 rounded-tl-lg rounded-tr-lg p-4 max-md:bottom-0 md:top-1/2 md:max-w-[505px] md:-translate-y-1/2 md:rounded-xl md:p-6",
 					className,
 				)}
 				{...props}
@@ -86,7 +86,7 @@ function DialogContent({
 				{showCloseButton && (
 					<DialogPrimitive.Close
 						data-slot='dialog-close'
-						className="ring-offset-background focus:ring-ring data-[state=open]:bg-accent data-[state=open]:text-muted-foreground absolute top-4 right-4 rounded-xs focus:ring-2 focus:ring-offset-2 focus:outline-hidden disabled:pointer-events-none md:top-6 md:right-6 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-6"
+						className="focus-visible:bg-brand-100 text-brand-600 hover:text-brand-700 data-[state=open]:bg-accent data-[state=open]:text-muted-foreground absolute top-2.5 right-2.5 flex size-10 cursor-pointer items-center justify-center rounded-full outline-none disabled:pointer-events-none md:top-4 md:right-4 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-6"
 					>
 						<XIcon />
 						<span className='sr-only'>Закрыть</span>
