@@ -1,7 +1,8 @@
-import { IProfileCard } from "@/types/profile.types"
 import { useProfile } from "@/hooks/useProfile"
+import { useAccountName } from "@/context/useAccountName"
 
-export function AboutCard({ username }: IProfileCard) {
+export function AboutCard() {
+	const { username } = useAccountName()
 	const { data } = useProfile(username)
 
 	if (!data) return

@@ -1,11 +1,15 @@
 import Link from "next/link"
-import { IProfile } from "@/types/profile.types"
+import { IProfile } from "@/types/profile.interface"
 import { IsVerified } from "@/components/common/is-verified"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardFooter } from "@/components/ui/card"
 
-export function SearchItem({ data }: { data: IProfile }) {
+interface ISearchItemProps {
+	data: IProfile
+}
+
+export function SearchItem({ data }: ISearchItemProps) {
 	return (
 		<Card className='border border-neutral-300'>
 			<CardContent>

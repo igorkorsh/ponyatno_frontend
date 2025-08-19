@@ -10,6 +10,7 @@ export interface IProfile {
 	firstName: string
 	birthDate?: string
 	gender: "MALE" | "FEMALE" | null
+	role: "TEACHER" | "STUDENT"
 	avatar?: string
 	lastName?: string
 	about?: string
@@ -38,8 +39,4 @@ export interface ISubject {
 	goals: Goal[]
 	disabilities: boolean
 	isArchived: boolean
-}
-
-export interface IProfileCard {
-	username: string
 }

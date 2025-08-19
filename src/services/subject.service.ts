@@ -1,4 +1,4 @@
-import { ISubject } from "@/types/dashboard.types"
+import { ISubject } from "@/types/dashboard.interface"
 import { axiosWithAuth } from "@/api/interceptors"
 
 export const subjectService = {

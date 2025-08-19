@@ -2,7 +2,7 @@
 
 import { useSearchParams } from "next/navigation"
 import { useEffect, useState } from "react"
-import { IProfile } from "@/types/profile.types"
+import { IProfile } from "@/types/profile.interface"
 import { profileService } from "@/services/profile.service"
 import { SearchItem } from "@/components/search/search-item"
 
@@ -44,9 +44,7 @@ export default function SearchPage() {
 				{loading && (
 					<div className='py-8 text-center'>
 						<div className='border-primary mx-auto h-8 w-8 animate-spin rounded-full border-b-2'></div>
-						<p className='text-muted-foreground mt-2'>
-							Загрузка результатов...
-						</p>
+						<p className='text-muted-foreground mt-2'>Загрузка результатов...</p>
 					</div>
 				)}
 
@@ -58,25 +56,19 @@ export default function SearchPage() {
 
 				{!loading && !error && !subject && (
 					<div className='py-8 text-center'>
-						<p className='text-muted-foreground'>
-							Выберите предмет для поиска преподавателей
-						</p>
+						<p className='text-muted-foreground'>Выберите предмет для поиска преподавателей</p>
 					</div>
 				)}
 
 				{!loading && !error && subject && teachers.length === 0 && (
 					<div className='py-8 text-center'>
-						<p className='text-muted-foreground'>
-							По вашему запросу ничего не найдено
-						</p>
+						<p className='text-muted-foreground'>По вашему запросу ничего не найдено</p>
 					</div>
 				)}
 
 				{!loading && !error && teachers.length > 0 && (
 					<div className='space-y-4'>
-						<p className='text-muted-foreground text-sm'>
-							Найдено преподавателей: {teachers.length}
-						</p>
+						<p className='text-muted-foreground text-sm'>Найдено преподавателей: {teachers.length}</p>
 						{teachers.map((teacher, idx) => (
 							<SearchItem
 								key={idx}

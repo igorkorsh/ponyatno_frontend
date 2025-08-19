@@ -2,7 +2,7 @@
 
 import { Accessibility } from "lucide-react"
 import { useCallback, useState } from "react"
-import { Goal, ISubject } from "@/types/profile.types"
+import { Goal, ISubject } from "@/types/profile.interface"
 import { useSubject } from "@/hooks/useSubject"
 import { CardWrapper } from "@/components/common/card-wrapper"
 import { Item } from "@/components/common/item"

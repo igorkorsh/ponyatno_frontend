@@ -2,7 +2,7 @@ import Cookies from "js-cookie"
 
 export const jwtService = {
 	getAccessToken() {
-		const accessToken = localStorage.getItem("accessToken")
+		const accessToken = Cookies.get("accessToken")
 		return accessToken || null
 	},
 
@@ -12,7 +12,7 @@ export const jwtService = {
 	},
 
 	setAccessToken(token: string) {
-		localStorage.setItem("accessToken", token)
+		Cookies.set("accessToken", token)
 	},
 
 	setRefreshToken(token: string) {
@@ -24,7 +24,7 @@ export const jwtService = {
 	},
 
 	removeTokens() {
-		localStorage.removeItem("accessToken")
+		Cookies.remove("accessToken")
 		Cookies.remove("refreshToken")
 	},
 }

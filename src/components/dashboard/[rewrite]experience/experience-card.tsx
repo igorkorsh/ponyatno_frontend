@@ -2,7 +2,7 @@
 
 import { Pencil, Plus, Trash2 } from "lucide-react"
 import { useState } from "react"
-import { IEducation, IExperience, IItemProps } from "@/types/dashboard.types"
+import { IEducation, IExperience, IItemProps } from "@/types/dashboard.interface"
 import { experienceService } from "@/services/experience.service"
 import { useExperience } from "@/hooks/useExperience"
 import { Button } from "@/components/ui/button"

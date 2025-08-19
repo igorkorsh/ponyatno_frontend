@@ -1,4 +1,4 @@
-import { IProfile } from "@/types/profile.types"
+import { IProfile } from "@/types/profile.interface"
 import { axiosInstance, axiosWithAuth } from "@/api/interceptors"
 
 export const profileService = {

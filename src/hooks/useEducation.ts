@@ -1,6 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import { educationService } from "@/services/education.service"
-import { EducationFormValues } from "@/components/dashboard/education/education.schema"
+import { EducationFormValues } from "@/components/dashboard/[rewrite]education/education.schema"
 
 const EDUCATION_QUERY_KEY = ["education"]
 
@@ -13,23 +13,15 @@ export const useEducation = () => {
 		staleTime: 5 * 60 * 1000,
 	})
 
-	const invalidate = () =>
-		queryClient.invalidateQueries({ queryKey: EDUCATION_QUERY_KEY })
+	const invalidate = () => queryClient.invalidateQueries({ queryKey: EDUCATION_QUERY_KEY })
 
 	const createMutation = useMutation({
-		mutationFn: (data: Partial<EducationFormValues>) =>
-			educationService.create(data),
+		mutationFn: (data: Partial<EducationFormValues>) => educationService.create(data),
 		onSuccess: invalidate,
 	})
 
 	const updateMutation = useMutation({
-		mutationFn: ({
-			id,
-			data,
-		}: {
-			id: string
-			data: Partial<EducationFormValues>
-		}) => educationService.update(id, data),
+		mutationFn: ({ id, data }: { id: string; data: Partial<EducationFormValues> }) => educationService.update(id, data),
 		onSuccess: invalidate,
 	})
 

@@ -1,10 +1,11 @@
-import { IProfileCard } from "@/types/profile.types"
 import { useProfile } from "@/hooks/useProfile"
 import { IsVerified } from "@/components/common/is-verified"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { calculateAge } from "@/utils/age"
+import { useAccountName } from "@/context/useAccountName"
 
-export function AccountCard({ username }: IProfileCard) {
+export function AccountCard() {
+	const { username } = useAccountName()
 	const { data, isLoading } = useProfile(username)
 
 	if (!data) return null

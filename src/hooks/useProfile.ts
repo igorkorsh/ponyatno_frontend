@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query"
-import { IProfile } from "@/types/profile.types"
+import { IProfile } from "@/types/profile.interface"
 import { profileService } from "@/services/profile.service"
 
 export const useProfile = (username: string) => {

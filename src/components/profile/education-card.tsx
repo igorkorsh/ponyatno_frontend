@@ -1,10 +1,11 @@
-import { IProfileCard } from "@/types/profile.types"
 import { useProfile } from "@/hooks/useProfile"
 import { CardWrapper } from "@/components/common/card-wrapper"
 import { Item } from "@/components/common/item"
 import { DEGREES } from "@/constants/education.constants"
+import { useAccountName } from "@/context/useAccountName"
 
-export function EducationCard({ username }: IProfileCard) {
+export function EducationCard() {
+	const { username } = useAccountName()
 	const { data } = useProfile(username)
 	const educations = data?.education
 

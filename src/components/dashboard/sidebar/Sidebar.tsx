@@ -19,7 +19,7 @@ export default function Sidebar() {
 
 	const menuItems = [
 		{ icon: <UserRound />, label: "Профиль", href: "/dashboard" },
-		{ icon: <MessageCircle />, label: "Cообщения", href: "/dashboard/chats" },
+		{ icon: <MessageCircle />, label: "Cообщения", href: "/dashboard/chat" },
 		{ icon: <Star />, label: "Отзывы", href: "/dashboard/reviews" },
 		{ icon: <CreditCard />, label: "Подписки", href: "/dashboard/payment" },
 	]

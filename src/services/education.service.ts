@@ -1,4 +1,4 @@
-import { IEducation } from "@/types/dashboard.types"
+import { IEducation } from "@/types/dashboard.interface"
 import { axiosWithAuth } from "@/api/interceptors"
 
 export const educationService = {

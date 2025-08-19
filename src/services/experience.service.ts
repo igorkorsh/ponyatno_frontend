@@ -1,4 +1,4 @@
-import { IExperience } from "@/types/dashboard.types"
+import { IExperience } from "@/types/dashboard.interface"
 import { axiosWithAuth } from "@/api/interceptors"
 
 export const experienceService = {

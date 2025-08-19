@@ -1,7 +1,7 @@
 "use client"
 
 import { Accessibility } from "lucide-react"
-import { type Goal, IProfileCard } from "@/types/profile.types"
+import { type Goal } from "@/types/profile.interface"
 import { useProfile } from "@/hooks/useProfile"
 import { CardWrapper } from "@/components/common/card-wrapper"
 import { Item } from "@/components/common/item"
@@ -9,8 +9,10 @@ import { Badge } from "@/components/ui/badge"
 import { GOALS, SUBJECTS } from "@/constants/subject.constants"
 import { formatCurrency } from "@/utils/format-currency"
 import { formatGrades } from "@/utils/format-grades"
+import { useAccountName } from "@/context/useAccountName"
 
-export function SubjectCard({ username }: IProfileCard) {
+export function SubjectCard() {
+	const { username } = useAccountName()
 	const { data } = useProfile(username)
 	const subjects = data?.subjects
 

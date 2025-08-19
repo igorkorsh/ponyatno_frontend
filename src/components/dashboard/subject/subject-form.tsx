@@ -3,7 +3,7 @@
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useEffect } from "react"
 import { useForm } from "react-hook-form"
-import { ISubject } from "@/types/profile.types"
+import { ISubject } from "@/types/profile.interface"
 import { useSubject } from "@/hooks/useSubject"
 import { Button } from "@/components/ui/button"
 import { DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog"

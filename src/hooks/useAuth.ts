@@ -1,5 +1,5 @@
 import { useQueryClient } from "@tanstack/react-query"
-import { IAuthResponse, ILoginForm, IRegisterForm } from "@/types/auth.types"
+import { IAuthResponse, ILoginForm, IRegisterForm } from "@/types/auth.interface"
 import { authService } from "@/services/auth.service"
 
 export const useAuth = () => {

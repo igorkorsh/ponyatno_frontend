@@ -1,7 +1,7 @@
 "use client"
 
 import { useCallback, useState } from "react"
-import { type Degree, IEducation } from "@/types/profile.types"
+import { type Degree, IEducation } from "@/types/profile.interface"
 import { useEducation } from "@/hooks/useEducation"
 import { CardWrapper } from "@/components/common/card-wrapper"
 import { Item } from "@/components/common/item"
