@@ -1,22 +1,27 @@
 import Link from "next/link"
-import LoginForm from "@/components/auth/login/login-form"
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@ui/card"
+import { LoginForm } from "@/features/auth/forms/login-form"
 
 export default function LoginPage() {
 	return (
-		<div className='flex flex-col gap-6'>
-			<h1 className='text-xl font-semibold text-neutral-900'>
-				Войти в «Понятно»
-			</h1>
-			<LoginForm />
-			<p className='text-center text-base text-neutral-800'>
-				Нет аккаунта?{" "}
-				<Link
-					href='/register'
-					className='text-brand-600 hover:text-brand-700 focus-visible:text-brand-700 font-medium transition-colors outline-none focus-visible:underline focus-visible:underline-offset-4'
-				>
-					Создать аккаунт
-				</Link>
-			</p>
-		</div>
+		<Card className='shadow-base w-full max-w-[440px] border-none'>
+			<CardHeader>
+				<CardTitle>Войти в «Понятно»</CardTitle>
+			</CardHeader>
+			<CardContent>
+				<LoginForm />
+			</CardContent>
+			<CardFooter>
+				<p className='mt-4 text-base lg:mt-6'>
+					Нет аккаунта?{" "}
+					<Link
+						href='/register'
+						className='text-brand-600 hover:text-brand-700 font-medium underline-offset-4 transition-colors hover:underline'
+					>
+						Зарегистрироваться
+					</Link>
+				</p>
+			</CardFooter>
+		</Card>
 	)
 }

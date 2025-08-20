@@ -1,18 +1,11 @@
 {
-	"printWidth": 160,
 	"useTabs": true,
 	"semi": false,
 	"jsxSingleQuote": true,
 	"singleAttributePerLine": true,
 	"importOrder": [
 		"<THIRD_PARTY_MODULES>",
-		"^@/types/(.*)$",
-		"^@/api/(.*)$",
-		"^@/services/(.*)$",
-		"^@/hooks/(.*)$",
-		"^@/components/(.*)$",
-		"^@/constants/(.*)$",
-		"^@/utils/(.*)$",
+		"^@/shared/(.*)$",
 		"^../(.*)",
 		"^./(.*)"
 	],

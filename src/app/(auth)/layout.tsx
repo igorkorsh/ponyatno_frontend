@@ -1,3 +1,9 @@
+import type { Metadata } from "next"
+
+export const metadata: Metadata = {
+	title: "Понятно",
+}
+
 export default function AuthLayout({
 	children,
 }: {
@@ -5,9 +11,7 @@ export default function AuthLayout({
 }) {
 	return (
 		<div className='flex h-dvh w-dvw items-center justify-center bg-neutral-200'>
-			<div className='md:shadow-base w-full bg-neutral-100 p-6 md:max-w-[440px] md:rounded-xl'>
-				{children}
-			</div>
+			{children}
 		</div>
 	)
 }

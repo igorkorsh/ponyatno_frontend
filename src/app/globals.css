@@ -51,7 +51,9 @@
 	--radius-xl: 1.625rem; /* 26px */
 	--radius-full: 999px;
 
-	--shadow-base: 0 4px 8px 3px rgba(0, 0, 0, 0.15), 0 0 3px 0 rgba(0, 0, 0, 0.1);
+	--shadow-*: initial;
+	--shadow-base:
+		0 4px 8px 3px rgba(0, 0, 0, 0.15), 0 0 3px 0 rgba(0, 0, 0, 0.1);
 }
 
 @theme inline {

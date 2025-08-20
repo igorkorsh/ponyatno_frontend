@@ -1,13 +1,14 @@
-import Sidebar from "@/components/dashboard/sidebar/Sidebar"
-import { ScrollArea } from "@/components/ui/scroll-area"
+import { Sidebar } from "@/features/profile/components/sidebar"
 
-export default function DashboardLayout({ children }: { children: React.ReactNode }) {
+export default function DashboardLayout({
+	children,
+}: {
+	children: React.ReactNode
+}) {
 	return (
-		<div className='grid h-full grid-cols-[245px_1fr]'>
+		<div className='grid min-h-svh grid-cols-[16rem_1fr] bg-neutral-200'>
 			<Sidebar />
-			<div className='overflow-hidden bg-neutral-200 p-4 pe-3 lg:p-6'>
-				<ScrollArea className='h-full pe-5'>{children}</ScrollArea>
-			</div>
+			<main>{children}</main>
 		</div>
 	)
 }
