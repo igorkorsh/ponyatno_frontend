@@ -5,6 +5,11 @@ export interface UseSocketReturn {
 	isConnected: boolean
 }
 
+export interface UseChatReturn {
+	chats: IChat[]
+	createChat: (data: IChatRequest) => void
+}
+
 export interface IChat {
 	id: string
 	status: "PENDING" | "APPROVED" | "REJECTED"
@@ -13,4 +18,9 @@ export interface IChat {
 		isRead: boolean
 		createdAt: string
 	}[]
+}
+
+export interface IChatRequest {
+	userId: string
+	requestId: string
 }

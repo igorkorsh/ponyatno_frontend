@@ -17,13 +17,13 @@ export const useSocketConnection = (): UseSocketReturn => {
 		const socket = io("http://localhost:3000", {
 			transports: ["websocket"],
 			withCredentials: true,
-			auth: {
-				token: accessToken,
-			},
 			reconnection: true,
 			reconnectionAttempts: 5,
 			reconnectionDelay: 500,
 			reconnectionDelayMax: 5000,
+			auth: {
+				token: accessToken,
+			},
 		})
 
 		socketRef.current = socket
