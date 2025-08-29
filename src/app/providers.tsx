@@ -2,7 +2,7 @@
 
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
 import { useState } from "react"
-import { SocketProvider } from "@/features/chat/providers/socket.provider"
+import { ChatProvider } from "@/features/chat/providers/chat.provider"
 
 export function Providers({ children }: { children: React.ReactNode }) {
 	const [client] = useState(
@@ -17,7 +17,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
 
 	return (
 		<QueryClientProvider client={client}>
-			<SocketProvider>{children}</SocketProvider>
+			<ChatProvider>{children}</ChatProvider>
 		</QueryClientProvider>
 	)
 }

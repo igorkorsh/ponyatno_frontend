@@ -1,26 +1,27 @@
-import { Socket } from "socket.io-client"
+// export interface IChatRequest {
+// 	userId: string
+// 	requestId: string
+// }
 
-export interface UseSocketReturn {
-	socket: Socket | null
-	isConnected: boolean
-}
-
-export interface UseChatReturn {
-	chats: IChat[]
-	createChat: (data: IChatRequest) => void
-}
-
-export interface IChat {
+export interface IChatResponse {
 	id: string
 	status: "PENDING" | "APPROVED" | "REJECTED"
-	messages: {
+	lastMessage: {
 		text: string
-		isRead: boolean
 		createdAt: string
-	}[]
+	}
+	user: {
+		firstName: string
+		avatar: string
+	}
 }
 
-export interface IChatRequest {
-	userId: string
-	requestId: string
+export interface IMessageResponse {
+	id: string
+	text: string
+	type: "TEXT" | "REQUEST"
+	isRead: boolean
+	isUpdated: boolean
+	createdAt: string
+	updatedAt: string
 }

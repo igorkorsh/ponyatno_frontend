@@ -1,11 +1,11 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/shared/ui/card"
 import { Input } from "@/shared/ui/input"
 import { ScrollArea } from "@/shared/ui/scroll-area"
-import { useChat } from "../hooks/useChat"
+import { useChatStore } from "../store/chat.store"
 import { ChatItem } from "./chat-item"
 
 export function ChatList() {
-	const { chats } = useChat()
+	const { chats } = useChatStore()
 
 	return (
 		<Card className='!p-0'>
