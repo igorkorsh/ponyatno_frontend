@@ -1,4 +1,5 @@
 import { axiosWithAuth } from "@api/interceptors"
+import { IProfile } from "../interfaces/profile.interface"
 import type { AboutFormValues } from "../schemas/about.schema"
 import type { AccountFormValues } from "../schemas/account.schema"
 
@@ -10,7 +11,7 @@ class ProfileService {
 	 * @returns CurrentProfile
 	 */
 	async getCurrentProfile() {
-		const response = await axiosWithAuth.get(`${this.BASE_URL}/@me`)
+		const response = await axiosWithAuth.get<IProfile>(`${this.BASE_URL}/@me`)
 
 		return response.data
 	}

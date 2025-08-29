@@ -1,20 +1,28 @@
 import { Socket, io } from "socket.io-client"
 import { create } from "zustand"
-import { IChatResponse, IMessageResponse } from "../interfaces/chat.interface"
+import { type ChatStatus, IChatResponse } from "../interfaces/chat.interface"
+import { IMessage } from "../interfaces/message.interface"
+import { chatService } from "../services/chat.service"
 import { authService } from "@/features/auth/services/auth.service"
 
 type ChatState = {
 	socket: Socket | null
 	chats: IChatResponse[]
-	messages: IMessageResponse[]
+	messages: IMessage[]
 	isConnected: boolean
+	hasMore: boolean
+	nextCursor: string | null
 }
 
 type ChatActions = {
 	connect: () => void
 	disconnect: () => void
 	setChats: (chats: IChatResponse[]) => void
-	setMessages: (messages: IMessageResponse[]) => void
+	getStatus: (roomId: string) => ChatStatus
+	loadMessages: (roomId: string, cursor?: string) => Promise<void>
+	loadMoreMessages: (roomId: string) => Promise<void>
+	sendMessage: (roomId: string, text: string) => void
+	setMessages: (messages: IMessage[]) => void
 }
 
 export const useChatStore = create<ChatState & ChatActions>()((set, get) => ({
@@ -22,6 +30,8 @@ export const useChatStore = create<ChatState & ChatActions>()((set, get) => ({
 	chats: [],
 	messages: [],
 	isConnected: false,
+	hasMore: false,
+	nextCursor: null,
 
 	connect: () => {
 		const { socket } = get()
@@ -51,14 +61,30 @@ export const useChatStore = create<ChatState & ChatActions>()((set, get) => ({
 		socketInstance.on("disconnect", async (reason) => {
 			set({ isConnected: false })
 
-			if (reason === "io server disconnect") {
-				await authService.refresh()
-				get().connect()
-			}
+			// if (reason === "io server disconnect") {
+			// 	await authService.refresh()
+			// 	get().connect()
+			// }
 		})
 
 		socketInstance.on("session:init", (chats: IChatResponse[]) => {
 			set({ chats })
+		})
+
+		socketInstance.on("room:created", (chat: IChatResponse) => {
+			const { chats } = get()
+
+			set({
+				chats: [...chats, chat],
+			})
+		})
+
+		socketInstance.on("message:created", (message: IMessage) => {
+			const { messages } = get()
+
+			set({
+				messages: [...messages, message],
+			})
 		})
 	},
 
@@ -72,7 +98,53 @@ export const useChatStore = create<ChatState & ChatActions>()((set, get) => ({
 		set({ chats })
 	},
 
-	setMessages: (messages: IMessageResponse[]) => {
-		set({ messages })
+	getStatus: (roomId: string) => {
+		const { chats } = get()
+		const currentChat = chats.find((chat) => chat.id === roomId)
+		return currentChat?.status ?? "PENDING"
+	},
+
+	loadMessages: async (roomId: string, cursor?: string) => {
+		const { messages, hasMore, nextCursor } = await chatService.getMessages({
+			roomId,
+			cursor,
+		})
+
+		if (cursor) {
+			const { messages: currentMessages } = get()
+			const currentIds = new Set(currentMessages.map((m) => m.id))
+			const newMessages = messages.filter((m) => !currentIds.has(m.id))
+			set({
+				messages: [...newMessages, ...currentMessages],
+				hasMore,
+				nextCursor,
+			})
+		} else {
+			set({
+				messages,
+				hasMore,
+				nextCursor,
+			})
+		}
+	},
+
+	loadMoreMessages: async (roomId: string) => {
+		const { nextCursor, hasMore } = get()
+
+		if (nextCursor && hasMore) {
+			await get().loadMessages(roomId, nextCursor)
+		}
+	},
+
+	sendMessage: (roomId: string, text: string) => {
+		const { socket } = get()
+		socket?.emit("message:create", { roomId, text })
+	},
+
+	setMessages: (newMessages: IMessage[]) => {
+		const { messages } = get()
+		set({
+			messages: [...messages, ...newMessages],
+		})
 	},
 }))

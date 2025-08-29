@@ -1,11 +1,8 @@
-// export interface IChatRequest {
-// 	userId: string
-// 	requestId: string
-// }
+export type ChatStatus = "PENDING" | "ACCEPTED" | "REJECTED"
 
 export interface IChatResponse {
 	id: string
-	status: "PENDING" | "APPROVED" | "REJECTED"
+	status: ChatStatus
 	lastMessage: {
 		text: string
 		createdAt: string
@@ -14,14 +11,4 @@ export interface IChatResponse {
 		firstName: string
 		avatar: string
 	}
-}
-
-export interface IMessageResponse {
-	id: string
-	text: string
-	type: "TEXT" | "REQUEST"
-	isRead: boolean
-	isUpdated: boolean
-	createdAt: string
-	updatedAt: string
 }

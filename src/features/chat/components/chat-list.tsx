@@ -17,12 +17,13 @@ export function ChatList() {
 					<Input placeholder='Поиск' />
 				</div>
 				<ScrollArea className='overflow-y-auto'>
-					{chats.map((chat) => (
-						<ChatItem
-							key={chat.id}
-							{...chat}
-						/>
-					))}
+					{chats.length > 0 &&
+						chats.map((chat) => (
+							<ChatItem
+								key={chat.id}
+								{...chat}
+							/>
+						))}
 				</ScrollArea>
 			</CardContent>
 		</Card>
