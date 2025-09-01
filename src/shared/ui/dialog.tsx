@@ -1,9 +1,9 @@
 "use client"
 
 import * as DialogPrimitive from "@radix-ui/react-dialog"
+import { cn } from "@utils/cn"
 import { XIcon } from "lucide-react"
 import type { ComponentProps } from "react"
-import { cn } from "@utils/cn"
 
 function Dialog({ ...props }: ComponentProps<typeof DialogPrimitive.Root>) {
 	return (
@@ -82,11 +82,12 @@ function DialogContent({
 				)}
 				{...props}
 			>
+				<DialogPrimitive.Description className='hidden'></DialogPrimitive.Description>
 				{children}
 				{showCloseButton && (
 					<DialogPrimitive.Close
 						data-slot='dialog-close'
-						className="focus-visible:bg-brand-100 text-brand-600 hover:text-brand-700 absolute top-4 right-4 flex size-10 items-center justify-center rounded-full transition-colors outline-none disabled:pointer-events-none [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-6"
+						className="focus-visible:bg-brand-100 text-brand-600 hover:text-brand-700 absolute top-3.5 right-3 flex size-10 items-center justify-center rounded-full transition-colors outline-none disabled:pointer-events-none [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-6"
 					>
 						<XIcon />
 						<span className='sr-only'>Закрыть</span>

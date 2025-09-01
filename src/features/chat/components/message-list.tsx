@@ -48,6 +48,8 @@ export function MessageList() {
 	useEffect(() => {
 		if (!isInitialLoad.current) {
 			scrollToBottom(messageListRef.current, true)
+			const audio = new Audio("/new-notification-09-352705.mp3")
+			audio.play()
 		}
 	}, [messages.length])
 
